@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?scenebuilder-background-color 0xfff1e3ff?>
 
-<AnchorPane prefHeight="395.0" prefWidth="593.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="espol.sopadeletras.PrimaryController">
+<AnchorPane prefHeight="395.0" prefWidth="593.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="espol.sopadeletras.MenuPrincipalController">
   <children>
     <ImageView fitHeight="395.0" fitWidth="702.471630842445" layoutX="0.0" layoutY="0.0" pickOnBounds="true" preserveRatio="true">
       <image>
