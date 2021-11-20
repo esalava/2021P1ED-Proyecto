@@ -16,18 +16,10 @@
   <children>
     <ImageView fitHeight="395.0" fitWidth="702.471630842445" layoutX="0.0" layoutY="0.0" pickOnBounds="true" preserveRatio="true">
       <image>
-        <Image url="@../estilos/arreglo-letras-marco-vista-superior_23-2148643804.jpg" />
+        <Image url="@../estilos/—Pngtree—color%20%20notepad_3233391.png" />
       </image>
     </ImageView>
-    <Button fx:id="primaryButton" contentDisplay="CENTER" layoutX="126.0" layoutY="188.0" minHeight="29.0" onAction="#switchToSecondary" prefHeight="49.0" prefWidth="143.0" style="-fx-background-color: #DAD7B8;&#10;-fx-border-color: #C8C59F;&#10;&#10;" text="Jugar" textAlignment="CENTER" />
-    <Label contentDisplay="CENTER" labelFor="$primaryButton" layoutX="88.0" layoutY="113.0" text="SOPA DE LETRAS" textAlignment="CENTER" textFill="#330018" textOverrun="CENTER_ELLIPSIS" underline="false" wrapText="false">
-      <font>
-        <Font name="Arial Rounded MT Bold" size="25.0" />
-      </font>
-      <stylesheets>
-        <URL value="@../estilos/estilo1.css" />
-      </stylesheets>
-    </Label>
+    <Button fx:id="primaryButton" contentDisplay="CENTER" layoutX="225.0" layoutY="133.0" minHeight="29.0" onAction="#switchToSecondary" prefHeight="49.0" prefWidth="143.0" style="-fx-background-color: #67C3CB;&#10;-fx-border-color: #62B0B8;&#10;&#10;" text="Jugar" textAlignment="CENTER" />
   </children>
   <stylesheets>
     <URL value="@../estilos/estilo1.css" />
