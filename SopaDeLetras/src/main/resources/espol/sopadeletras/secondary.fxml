@@ -2,56 +2,66 @@
 
 <?import java.lang.*?>
 <?import java.util.*?>
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
-  <children>
-    <ImageView fitHeight="400.0" fitWidth="650.0" layoutX="4.0" layoutY="0.0" pickOnBounds="true" preserveRatio="true">
-      <image>
-        <Image url="@../estilos/ModeloJuego.png" />
-      </image>
-    </ImageView>
-    <GridPane layoutX="4.0" layoutY="74.0" prefHeight="326.0" prefWidth="406.0">
-      <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-      </columnConstraints>
-      <rowConstraints>
-        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      </rowConstraints>
-    </GridPane>
-    <GridPane layoutX="4.0" layoutY="0.0" prefHeight="67.0" prefWidth="600.50634765625">
+<BorderPane id="BorderPane" maxHeight="-1.0" maxWidth="-1.0" minHeight="-1.0" minWidth="-1.0" prefHeight="380.0" prefWidth="596.999977929685" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+  <center>
+    <HBox alignment="CENTER_RIGHT" prefHeight="320.0000999999975" prefWidth="518.0" style="-fx-background-color: #FFF0CE">
       <children>
-        <Label text="NOMBRE" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-        <Label text="TIEMPO" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+        <GridPane prefHeight="320.0" prefWidth="443.0" style="-fx-background-color: #FFF0CE;&#10;-fx-border-color: #000000;">
+          <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          </columnConstraints>
+          <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          </rowConstraints>
+        </GridPane>
+        <VBox alignment="BOTTOM_RIGHT" prefHeight="320.0" prefWidth="154.0" style="-fx-background-color: #88DBC2;&#10;-fx-border-color: #000000">
+          <children>
+            <VBox prefHeight="219.0" prefWidth="152.0" />
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #F6E6A7;&#10;-fx-border-color: #000000">
+              <children>
+                <Button mnemonicParsing="false" prefHeight="28.0" prefWidth="77.0" text="VALIDAR" />
+              </children>
+            </HBox>
+          </children>
+        </VBox>
       </children>
-      <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES" maxWidth="277.0" minWidth="10.0" prefWidth="275.0" />
-        <ColumnConstraints hgrow="SOMETIMES" maxWidth="169.0" minWidth="0.0" prefWidth="113.0" />
-        <ColumnConstraints hgrow="SOMETIMES" maxWidth="215.0" minWidth="10.0" prefWidth="213.0" />
-      </columnConstraints>
-      <rowConstraints>
-        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      </rowConstraints>
-    </GridPane>
-    <GridPane layoutX="418.0" layoutY="74.0" prefHeight="242.0" prefWidth="182.0">
+    </HBox>
+  </center>
+  <top>
+    <HBox prefHeight="60.0" prefWidth="597.0" style="-fx-background-color: #DD616B;&#10;-fx-border-color: #000000;">
       <children>
-        <Label alignment="CENTER" contentDisplay="CENTER" text="LETRAS QUI" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-border-color: #000000">
+          <children>
+            <Label text="BUENA SUERTE JUGADOR: asdjasdas" textFill="WHITE">
+              <font>
+                <Font name="Bauhaus 93" size="12.0" />
+              </font>
+            </Label>
+          </children>
+        </HBox>
+        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-border-color: #000000">
+          <children>
+            <Label alignment="CENTER" text="LETRA" textFill="WHITE">
+              <font>
+                <Font name="Arial Rounded MT Bold" size="12.0" />
+              </font>
+            </Label>
+          </children>
+        </HBox>
+        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-border-color: #000000">
+          <children>
+            <Label text="TIEMPO" textFill="WHITE" />
+          </children>
+        </HBox>
       </children>
-      <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-      </columnConstraints>
-      <rowConstraints>
-        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      </rowConstraints>
-    </GridPane>
-    <Button layoutX="458.0" layoutY="350.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="103.0" text="VALIDAR" />
-  </children>
-</AnchorPane>
+    </HBox>
+  </top>
+</BorderPane>
