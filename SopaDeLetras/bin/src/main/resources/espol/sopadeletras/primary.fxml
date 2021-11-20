@@ -19,7 +19,7 @@
         <Image url="@../estilos/—Pngtree—color%20%20notepad_3233391.png" />
       </image>
     </ImageView>
-    <Button fx:id="primaryButton" contentDisplay="CENTER" layoutX="225.0" layoutY="133.0" minHeight="29.0" onAction="#switchToSecondary" prefHeight="53.0" prefWidth="143.0" style="-fx-background-color: #67C3CB;&#10;-fx-border-color: #62B0B8;&#10;&#10;" text="Jugar" textAlignment="CENTER" />
+    <Button fx:id="primaryButton" contentDisplay="CENTER" layoutX="225.0" layoutY="133.0" minHeight="29.0" onAction="#switchToSecondary" prefHeight="49.0" prefWidth="143.0" style="-fx-background-color: #67C3CB;&#10;-fx-border-color: #62B0B8;&#10;&#10;" text="Jugar" textAlignment="CENTER" />
   </children>
   <stylesheets>
     <URL value="@../estilos/estilo1.css" />
