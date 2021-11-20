@@ -2,6 +2,7 @@
 package Matrix;
 
 
+import java.util.Random;
 import java.util.Stack;
 import java.util.concurrent.TimeUnit;
 
@@ -18,6 +19,9 @@ public class Cell{
     private String letra;
     private final Cell cells[][];
     private boolean neighboursSet = false;
+    private final String LETRAS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private Random rd;
+   
     
     
 
@@ -25,10 +29,11 @@ public class Cell{
         this.cells = cells;
         this.row = row;
         this.column = column;
-        this.letra = "A";
-        //this.setSize(new Dimension(20, 20));
-        //this.setBackground(colors[BacktrackingExample.getRandomNumberInRange(0, 2)]);
-        //this.addMouseListener(this);
+        
+        //carga de letras aleatorias
+        rd = new Random();
+        
+        this.letra = LETRAS.charAt(rd.nextInt(LETRAS.length()-1)) + "";
         this.setNeighbours();
     }
 
@@ -57,6 +62,10 @@ public class Cell{
     
     public String getLetter(){
         return letra;
+    }
+    
+    public void setLetter(String letter){
+        this.letra = letter;
     }
     
 

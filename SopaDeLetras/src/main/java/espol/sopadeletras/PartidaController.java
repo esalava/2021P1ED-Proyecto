@@ -1,6 +1,7 @@
 package espol.sopadeletras;
 
 import Matrix.Cell;
+import TDA.DoblyCircularList;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -24,6 +25,10 @@ public class PartidaController {
 
     @FXML
     private Text textTime;
+    
+    //Lugar en donde se encuentran los botones para girar la matriz
+    @FXML
+    private VBox VBRightButtons;
 
 
     
@@ -42,7 +47,7 @@ public class PartidaController {
         for (int y = 0; y < rows; y++) {
             for (int x = 0; x < columns; x++) {
                 System.out.println(y+","+x);
-                Cell cell = new Cell(y, x, cells);
+                Cell cell = new Cell(y, x, cells); //A 
                 VBox vbox = new VBox();
                 Text text = new Text(cell.getLetter());
                 //text.prefHeight(10);
@@ -65,10 +70,57 @@ public class PartidaController {
                 cells[m][n].setNeighbours();
             }
         }
+        
+        
         //sopa.gridLinesVisibleProperty();
+        //moveRowRight();
     }
     
+    //carga los botones del lado derecho para mover las filas hacia la derecha
+    @FXML
+    private void moveRowRight(){
+        //Cell[] currentRow = cells[0]; //ABC
+        
+        
+        DoblyCircularList<String> circularList = new DoblyCircularList<>();
+        
+        //se recorre la fila
+        for (int i = 0 ; i<cells[0].length ; i++){
+            circularList.addLast(cells[i][0].getLetter());
+            //System.out.print(currentRow[i].getLetter() + " ");
+        }
+        
+        circularList.doRightBitshifting();
+        
+        for (int i = 0 ; i<cells[0].length ; i++){
+            cells[i][0].setLetter(circularList.getIndex(i));
+        }
+        
+      
+        updateSopaPane();
+        
+        System.out.println("Se ha movido +1 hacia la derecha");
+    }
     
+    private void updateSopaPane(){
+        sopa.getChildren().clear();
+        for (int y = 0; y < rows; y++) {
+            for (int x = 0; x < columns; x++) {
+                
+                Cell cell = cells[y][x];
+                VBox vbox = new VBox();
+                Text text = new Text(cell.getLetter());
+                
+                vbox.getChildren().add(text);
+                vbox.setPrefSize(50, 50);
+                vbox.setAlignment(Pos.CENTER);
+               
+                sopa.add(vbox, y,x);
+                //cells[y][x] = cell;
+            }
+        }
+        System.out.println("Actualizacion correctamente");
+    }
     
     
 }
