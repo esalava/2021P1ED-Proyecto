@@ -44,11 +44,7 @@
             <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
          </top>
          <right>
-            <VBox fx:id="VBRightButtons" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Button mnemonicParsing="false" onAction="#moveRowRight" text="move" />
-               </children>
-            </VBox>
+            <VBox fx:id="VBRightButtons" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
          </right>
          <bottom>
             <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />

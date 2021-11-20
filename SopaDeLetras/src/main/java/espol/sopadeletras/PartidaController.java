@@ -3,9 +3,12 @@ package espol.sopadeletras;
 import Matrix.Cell;
 import TDA.DoblyCircularList;
 import java.io.IOException;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -46,7 +49,7 @@ public class PartidaController {
         sopa.setGridLinesVisible(true);
         for (int y = 0; y < rows; y++) {
             for (int x = 0; x < columns; x++) {
-                System.out.println(y+","+x);
+                //System.out.println(y+","+x);
                 Cell cell = new Cell(y, x, cells); //A 
                 VBox vbox = new VBox();
                 Text text = new Text(cell.getLetter());
@@ -73,27 +76,27 @@ public class PartidaController {
         
         
         //sopa.gridLinesVisibleProperty();
-        //moveRowRight();
+        loadButtonsRight();
     }
     
     //carga los botones del lado derecho para mover las filas hacia la derecha
     @FXML
-    private void moveRowRight(){
+    private void moveRowRight(int index){
         //Cell[] currentRow = cells[0]; //ABC
         
         
         DoblyCircularList<String> circularList = new DoblyCircularList<>();
         
         //se recorre la fila
-        for (int i = 0 ; i<cells[0].length ; i++){
-            circularList.addLast(cells[i][0].getLetter());
+        for (int i = 0 ; i<cells[index].length ; i++){
+            circularList.addLast(cells[i][index].getLetter());
             //System.out.print(currentRow[i].getLetter() + " ");
         }
         
         circularList.doRightBitshifting();
         
-        for (int i = 0 ; i<cells[0].length ; i++){
-            cells[i][0].setLetter(circularList.getIndex(i));
+        for (int i = 0 ; i<cells[index].length ; i++){
+            cells[i][index].setLetter(circularList.getIndex(i));
         }
         
       
@@ -120,6 +123,23 @@ public class PartidaController {
             }
         }
         System.out.println("Actualizacion correctamente");
+    }
+    
+    private void loadButtonsRight(){
+        
+        for(int i = 0; i < cells[0].length ; i++){
+            HBox newBox = new HBox();
+            
+            newBox.getChildren().add(new Text("MOVE"));
+            newBox.prefHeight(50);
+            newBox.prefWidth(50);
+            newBox.setOnMouseClicked(e -> {
+                moveRowRight(i);
+            });
+            
+            VBRightButtons.getChildren().add(newBox);
+        }
+    
     }
     
     
