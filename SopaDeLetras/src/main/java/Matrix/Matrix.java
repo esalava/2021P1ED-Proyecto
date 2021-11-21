@@ -5,6 +5,7 @@ import TDA.CircularDoblyNodeList;
 import TDA.DoblyCircularList;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.Stack;
 
 public class Matrix {
     private int row;
@@ -80,6 +81,18 @@ public class Matrix {
         }
     }
     
+    public static String invertirPalabra(String palabra){
+        Stack<String> pila = new Stack<>();
+        String palabraInvert = "";
+        for (int i=0; i<palabra.length(); i++){
+            pila.push(String.valueOf(palabra.charAt(i)));
+        }
+        while (!pila.isEmpty()){
+            palabraInvert += pila.pop();
+        }
+        return palabraInvert;
+
+    }
     
     
     
