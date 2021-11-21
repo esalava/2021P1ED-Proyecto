@@ -10,9 +10,7 @@ import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 
-/**
- * JavaFX App
- */
+
 public class App extends Application {
 
     private static Stage stage;
@@ -30,7 +28,7 @@ public class App extends Application {
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml +".fxml"));
         return fxmlLoader.load();
     }
 
