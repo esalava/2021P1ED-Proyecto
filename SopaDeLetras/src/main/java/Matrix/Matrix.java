@@ -50,6 +50,37 @@ public class Matrix {
         return listaPalabras;
     }
     
+    //METODO PARA AGREGAR PALABRA EN DIAGONAL
+    public static void agregarDiagonal(String palabra, Cell sopa[][], int fila, int columna){
+        
+        for (int i=0; i<palabra.length();i++){
+            Cell celda = sopa[fila+i][columna + i];
+            celda.setLetter(String.valueOf(palabra.charAt(i)));
+            sopa[fila+i][columna +i] = celda;
+        }
+    
+    }
+
+    //METODO PARA AGREGAR PALABRA EN HORIZONTAL
+    public static void agregarHorizontal(String palabra, Cell sopa[][], int fila, int columna){
+    
+        for (int i=0; i<palabra.length();i++){
+            Cell celda = sopa[fila][columna + i];
+            celda.setLetter(String.valueOf(palabra.charAt(i)));
+            sopa[fila][columna + i] = celda;
+        }
+    }
+
+    //METODO PARA AGREGAR PALABRA EN VERTICAL
+    public static void agregarVertical(String palabra, Cell sopa[][], int filas, int columnas){
+        for (int i=0; i<palabra.length();i++){
+            Cell celda = sopa[filas+i][columnas];
+            celda.setLetter(String.valueOf(palabra.charAt(i)));
+            sopa[filas+i][columnas] = celda;
+        }
+    }
+    
+    
     
     
     
