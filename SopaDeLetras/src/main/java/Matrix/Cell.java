@@ -2,6 +2,7 @@
 package Matrix;
 
 
+import TDA.DoblyCircularList;
 import java.util.Random;
 import java.util.Stack;
 import java.util.concurrent.TimeUnit;
@@ -67,6 +68,8 @@ public class Cell{
     public void setLetter(String letter){
         this.letra = letter;
     }
+    
+    
     
 
 }

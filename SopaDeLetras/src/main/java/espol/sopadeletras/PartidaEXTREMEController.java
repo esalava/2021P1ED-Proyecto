@@ -147,7 +147,7 @@ public class PartidaEXTREMEController {
     }
     
     
-    /**class decrementaCuenta implements Runnable {
+    class decrementaCuenta implements Runnable {
 
         private int count = 70;
 
@@ -172,7 +172,7 @@ public class PartidaEXTREMEController {
 
     }
     
-    **/
+    
     
 }
     
