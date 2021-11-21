@@ -40,6 +40,9 @@ public class Main {
 
             }
         }
+        newMatrix[0][0] = 2;
+        newMatrix[1][0] = 3;
+        newMatrix[1][2] = 5;
         
         for(int y = 0 ; y<newMatrix.length; y++){
             for(int x = 0; x < newMatrix[y].length ; x++){
@@ -48,6 +51,10 @@ public class Main {
             System.out.println("");
         }
         
+        System.out.println(newMatrix.length);
+        for(int y = 0 ; y<newMatrix.length; y++){
+            System.out.println(newMatrix[y][0]);
+        }
         
         
     }

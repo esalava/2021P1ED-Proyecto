@@ -42,6 +42,12 @@ public class PartidaController {
     @FXML
     private VBox VBLeftButtons;
     
+    @FXML
+    private HBox HBUpButtons;
+
+    @FXML
+    private HBox HBDownButtons;
+    
     private final String LETRAS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     
@@ -65,8 +71,6 @@ public class PartidaController {
                 Cell cell = new Cell(y, x, cells); //A 
                 VBox vbox = new VBox();
                 Text text = new Text(cell.getLetter());
-                //text.prefHeight(10);
-                //text.prefWidth(10);
                 
                 vbox.getChildren().add(text);
                 vbox.setPrefSize(50, 50);
@@ -74,7 +78,7 @@ public class PartidaController {
                 vbox.setOnMouseClicked(e -> {
                     vbox.setBackground(new Background(new BackgroundFill(Color.DARKORANGE, null, null)));
                 });
-                //vbox.setBackground(new Background(new BackgroundFill(Color.AQUA, CornerRadii.EMPTY, Insets.EMPTY)));
+                
                 sopa.add(vbox, y,x);
                 cells[y][x] = cell;
             }
@@ -90,10 +94,9 @@ public class PartidaController {
         }
         
         
-        //sopa.gridLinesVisibleProperty();
-        loadButtonsRight();
-        loadButtonsLeft();
-        //addColumn(1);
+       
+        loadAllButtons();
+        
 
     }
     
@@ -147,6 +150,51 @@ public class PartidaController {
         System.out.println("Se ha movido +1 hacia la izquierda");
     }
     
+    private void moveColumnUp(int index){
+        //Cell[] currentRow = cells[0]; //ABC
+        
+        
+        DoblyCircularList<String> circularList = new DoblyCircularList<>();
+        
+        //se recorre la columna
+        for (int y = 0 ; y<cells.length ; y++){
+            circularList.addLast(cells[index][y].getLetter());
+        }
+        
+        circularList.doLeftBitshifting();
+        
+        for (int i = 0 ; i<cells.length ; i++){
+            cells[index][i].setLetter(circularList.getIndex(i));
+        }
+
+        System.out.println("Se ha movido +1 hacia la arriba");
+        updateSopaPane();
+    }
+    
+    private void moveColumnDown(int index){
+        //Cell[] currentRow = cells[0]; //ABC
+        
+        
+        DoblyCircularList<String> circularList = new DoblyCircularList<>();
+        
+        //se recorre la columna
+        for (int y = 0 ; y<cells.length ; y++){
+            circularList.addLast(cells[index][y].getLetter());
+        }
+        
+        circularList.doRightBitshifting();
+        
+        for (int i = 0 ; i<cells.length ; i++){
+            cells[index][i].setLetter(circularList.getIndex(i));
+        }
+
+        System.out.println("Se ha movido +1 hacia la abajo");
+        updateSopaPane();
+    }
+    
+    
+    
+    
     /** actualiza la sopa de letras: el metodo debe ser llamado en cualquier
      *  cambio de la sopa
      **/
@@ -173,6 +221,13 @@ public class PartidaController {
         System.out.println("Actualizacion correctamente");
     }
     
+    private void loadAllButtons(){
+        loadButtonsRight();
+        loadButtonsLeft();
+        loadButttonsUp();
+        loadButttonsDown();
+    }
+    
     private void loadButtonsRight(){
         
         for(int i = 0; i < cells[0].length ; i++){
@@ -185,6 +240,7 @@ public class PartidaController {
             newBox.setOnMouseClicked(e -> {
                 moveRowRight(idx);
             }); 
+            
             VBRightButtons.getChildren().add(newBox);
         }
     }
@@ -201,8 +257,39 @@ public class PartidaController {
             newBox.setOnMouseClicked(e -> {
                 moveRowLeft(idx);
             }); 
+            
             VBLeftButtons.getChildren().add(newBox);
         }
+    }
+    
+    private void loadButttonsUp(){
+        for(int i = 0; i < cells[0].length ; i++){
+            final int idx = i;
+            HBox newBox = new HBox();
+            
+            newBox.getChildren().add(new Text("MOVE"));
+            newBox.setOnMouseClicked(e -> {
+                moveColumnUp(idx);
+            }); 
+            
+            HBUpButtons.getChildren().add(newBox);
+        }
+    }
+    
+    private void loadButttonsDown(){
+        for(int i = 0; i < cells[0].length ; i++){
+            final int idx = i;
+            HBox newBox = new HBox();
+            
+            newBox.getChildren().add(new Text("MOVE"));
+            newBox.setOnMouseClicked(e -> {
+                moveColumnDown(idx);
+            }); 
+            
+            HBDownButtons.getChildren().add(newBox);
+        }
+    
+    
     }
     
     

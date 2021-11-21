@@ -17,6 +17,12 @@
   <VBox alignment="BOTTOM_RIGHT" prefHeight="320.0" prefWidth="154.0" style="-fx-background-color: #88DBC2;&#10;-fx-border-color: #000000" BorderPane.alignment="CENTER">
     <children>
       <VBox prefHeight="219.0" prefWidth="152.0" />
+            <HBox alignment="CENTER" prefHeight="44.0" prefWidth="152.0">
+               <children>
+                  <Button mnemonicParsing="false" text="Add" />
+                  <Button mnemonicParsing="false" text="Delete" />
+               </children>
+            </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #F6E6A7;&#10;-fx-border-color: #000000">
         <children>
           <Button mnemonicParsing="false" prefHeight="28.0" prefWidth="77.0" text="VALIDAR" />
@@ -41,13 +47,13 @@
             </GridPane>
          </center>
          <top>
-            <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+            <HBox fx:id="HBUpButtons" alignment="BASELINE_CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
          </top>
          <right>
             <VBox fx:id="VBRightButtons" alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
          </right>
          <bottom>
-            <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+            <HBox fx:id="HBDownButtons" alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
          </bottom>
          <left>
             <VBox fx:id="VBLeftButtons" alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
