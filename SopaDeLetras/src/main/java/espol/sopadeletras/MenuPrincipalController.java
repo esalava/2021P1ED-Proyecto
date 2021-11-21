@@ -12,12 +12,12 @@ public class MenuPrincipalController {
     @FXML
     private void switchToSecondary(ActionEvent event) throws IOException {
         //App.setRoot("secondary");
-        App.switchScenes(event, "Partida", 882, 654);
+        App.switchScenes(event, "Pregunta", 389, 240);
     }
     
     @FXML
-    private void switchToXTREME(ActionEvent event2) throws IOException {
+    private void switchToXTREME(ActionEvent event) throws IOException {
         //App.setRoot("secondary");
-        App.switchScenes(event2, "PartidaEXTREME", 882, 654);
+        App.switchScenes(event, "PartidaEXTREME", 882, 654);
     }
 }

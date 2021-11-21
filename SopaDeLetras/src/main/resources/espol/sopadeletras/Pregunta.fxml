@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="389.0" style="-fx-background-color: #F4E7DB;&#10;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="espol.sopadeletras.PreguntaController">
+  <children>
+    <VBox fx:id="vboxElementos" alignment="CENTER" layoutX="33.0" layoutY="20.0" prefHeight="200.0" prefWidth="288.0">
+      <children>
+        <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
+          <children>
+            <Label text="Filas:      " />
+            <TextField fx:id="cuadroT1" prefWidth="200.0" style="-fx-background-color: #E8DCD0;" />
+          </children>
+        </HBox>
+        <HBox alignment="CENTER_RIGHT" prefHeight="60.0" prefWidth="256.9999000000025">
+          <children>
+            <Label prefWidth="75.0" text="Columnas:   " />
+            <TextField fx:id="cuadroT2" prefWidth="200.0" style="-fx-background-color: #E8DCD0;" />
+          </children>
+        </HBox>
+        <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
+          <children>
+            <Label text="Tu nombre:    " />
+            <TextField fx:id="cuadroT3" prefWidth="200.0" style="-fx-background-color: #E8DCD0;" />
+          </children>
+        </HBox>
+        <Button id="botonOk" contentDisplay="CENTER" mnemonicParsing="false" onAction="#switchToJugar" text="OK" />
+      </children>
+    </VBox>
+  </children>
+</AnchorPane>

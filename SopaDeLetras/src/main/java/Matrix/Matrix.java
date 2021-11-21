@@ -3,6 +3,9 @@ package Matrix;
 
 import TDA.CircularDoblyNodeList;
 import TDA.DoblyCircularList;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.Stack;
 
 public class Matrix {
     private int row;
@@ -29,6 +32,66 @@ public class Matrix {
             DoblyCircularList<String> actualrow = matrixRow.getIndex(i);
             actualrow.show();
         }
+    }
+    
+    //METODO PARA LEER LAS PALABRAS DEL ARCHIVO, RETORNA LISTA
+    public static DoblyCircularList<String> leerPalabras(String ruta){
+        DoblyCircularList<String> listaPalabras = new DoblyCircularList<>();
+        try {
+            FileReader reader = new FileReader(ruta);
+            BufferedReader br = new BufferedReader(reader);
+            String linea;
+            while ((linea = br.readLine())!= null){
+                listaPalabras.addLast(linea.strip());
+            }
+            reader.close();
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return listaPalabras;
+    }
+    
+    //METODO PARA AGREGAR PALABRA EN DIAGONAL
+    public static void agregarDiagonal(String palabra, Cell sopa[][], int fila, int columna){
+        
+        for (int i=0; i<palabra.length();i++){
+            Cell celda = sopa[fila+i][columna + i];
+            celda.setLetter(String.valueOf(palabra.charAt(i)));
+            sopa[fila+i][columna +i] = celda;
+        }
+    
+    }
+
+    //METODO PARA AGREGAR PALABRA EN HORIZONTAL
+    public static void agregarHorizontal(String palabra, Cell sopa[][], int fila, int columna){
+    
+        for (int i=0; i<palabra.length();i++){
+            Cell celda = sopa[fila][columna + i];
+            celda.setLetter(String.valueOf(palabra.charAt(i)));
+            sopa[fila][columna + i] = celda;
+        }
+    }
+
+    //METODO PARA AGREGAR PALABRA EN VERTICAL
+    public static void agregarVertical(String palabra, Cell sopa[][], int filas, int columnas){
+        for (int i=0; i<palabra.length();i++){
+            Cell celda = sopa[filas+i][columnas];
+            celda.setLetter(String.valueOf(palabra.charAt(i)));
+            sopa[filas+i][columnas] = celda;
+        }
+    }
+    
+    public static String invertirPalabra(String palabra){
+        Stack<String> pila = new Stack<>();
+        String palabraInvert = "";
+        for (int i=0; i<palabra.length(); i++){
+            pila.push(String.valueOf(palabra.charAt(i)));
+        }
+        while (!pila.isEmpty()){
+            palabraInvert += pila.pop();
+        }
+        return palabraInvert;
+
     }
     
     

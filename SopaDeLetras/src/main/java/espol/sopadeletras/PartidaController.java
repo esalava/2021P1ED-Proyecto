@@ -94,6 +94,7 @@ public class PartidaController {
         loadButtonsRight();
         loadButtonsLeft();
         //addColumn(1);
+
     }
     
     //carga los botones del lado derecho para mover las filas hacia la derecha
