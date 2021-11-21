@@ -31,6 +31,23 @@ public class Matrix {
         }
     }
     
+    //METODO PARA LEER LAS PALABRAS DEL ARCHIVO, RETORNA LISTA
+    public static DoblyCircularList<String> leerPalabras(String ruta){
+        DoblyCircularList<String> listaPalabras = new DoblyCircularList<>();
+        try {
+            FileReader reader = new FileReader(ruta);
+            BufferedReader br = new BufferedReader(reader);
+            String linea;
+            while ((linea = br.readLine())!= null){
+                listaPalabras.addLast(linea.strip());
+            }
+            reader.close();
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return listaPalabras;
+    }
+    
     
     
     
