@@ -77,8 +77,8 @@ public class PartidaController {
         
         
         //sopa.gridLinesVisibleProperty();
-        loadButtonsRight();
-        loadButtonsLeft();
+        /**loadButtonsRight();
+        loadButtonsLeft();**/
     }
     
     //carga los botones del lado derecho para mover las filas hacia la derecha
@@ -155,7 +155,7 @@ public class PartidaController {
         System.out.println("Actualizacion correctamente");
     }
     
-    private void loadButtonsRight(){
+    /**private void loadButtonsRight(){
         
         for(int i = 0; i < cells[0].length ; i++){
             HBox newBox = new HBox();
@@ -183,7 +183,7 @@ public class PartidaController {
             }); 
             VBLeftButtons.getChildren().add(newBox);
         }
-    }
+    }**/
     
     
     

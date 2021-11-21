@@ -40,16 +40,17 @@ public class PartidaEXTREMEController {
     Cell cells[][] = new Cell[rows][columns];
     
     @FXML
-    private void switchToXTREME() throws IOException {
+    private void switchToSecondary() throws IOException {
         App.setRoot("MenuPrincipal");
     }
 
     @FXML
     private void initialize() {
-    	/**Thread hiloCuenta = new Thread(new decrementaCuenta());
-        hiloCuenta.setDaemon(true);
-        hiloCuenta.start();**/
     	
+    	
+    	Thread hiloCuenta = new Thread(new DecrementaCuenta());
+        hiloCuenta.setDaemon(true);
+        hiloCuenta.start();
         sopa2.setGridLinesVisible(true);
         for (int y = 0; y < rows; y++) {
             for (int x = 0; x < columns; x++) {
@@ -80,7 +81,7 @@ public class PartidaEXTREMEController {
         
         
         //sopa.gridLinesVisibleProperty();
-        loadButtonsRight();
+        //loadButtonsRight();
     }
     
     //carga los botones del lado derecho para mover las filas hacia la derecha
@@ -129,7 +130,7 @@ public class PartidaEXTREMEController {
         System.out.println("Actualizacion correctamente");
     }
     
-    private void loadButtonsRight(){
+    /**private void loadButtonsRight(){
         
         for(int i = 0; i < cells[0].length ; i++){
             HBox newBox = new HBox();
@@ -144,18 +145,16 @@ public class PartidaEXTREMEController {
             VBRightButtons2.getChildren().add(newBox);
         }
     
-    }
+    }**/
     
     
-    /**class decrementaCuenta implements Runnable {
+    class DecrementaCuenta implements Runnable {
 
-        private int count = 70;
+        private int count = 0;
 
         private void decrementCount() {
-        	while(count != 0) {
-            count--;
+            count++;
             textTime2.setText(Integer.toString(count));
-        	}
         }
 
         @Override
@@ -172,7 +171,7 @@ public class PartidaEXTREMEController {
 
     }
     
-    **/
+    
     
 }
     
