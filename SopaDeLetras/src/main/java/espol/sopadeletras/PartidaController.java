@@ -32,7 +32,8 @@ public class PartidaController {
     //Lugar en donde se encuentran los botones para girar la matriz
     @FXML
     private VBox VBRightButtons;
-
+    @FXML
+    private VBox VBLeftButtons;
 
     
     int rows = 10;
@@ -77,6 +78,7 @@ public class PartidaController {
         
         //sopa.gridLinesVisibleProperty();
         loadButtonsRight();
+        loadButtonsLeft();
     }
     
     //carga los botones del lado derecho para mover las filas hacia la derecha
@@ -90,7 +92,7 @@ public class PartidaController {
         //se recorre la fila
         for (int i = 0 ; i<cells[index].length ; i++){
             circularList.addLast(cells[i][index].getLetter());
-            //System.out.print(currentRow[i].getLetter() + " ");
+           
         }
         
         circularList.doRightBitshifting();
@@ -104,6 +106,34 @@ public class PartidaController {
         
         System.out.println("Se ha movido +1 hacia la derecha");
     }
+    
+    private void moveRowLeft(int index){
+        //Cell[] currentRow = cells[0]; //ABC
+        
+        
+        DoblyCircularList<String> circularList = new DoblyCircularList<>();
+        
+        //se recorre la fila
+        for (int i = 0 ; i<cells[index].length ; i++){
+            circularList.addLast(cells[i][index].getLetter());
+           
+        }
+        
+        circularList.doLeftBitshifting();
+        
+        for (int i = 0 ; i<cells[index].length ; i++){
+            cells[i][index].setLetter(circularList.getIndex(i));
+        }
+        
+      
+        updateSopaPane();
+        
+        System.out.println("Se ha movido +1 hacia la izquierda");
+    }
+    
+    /** actualiza la sopa de letras: el metodo debe ser llamado en cualquier
+     *  cambio de la sopa
+     **/
     
     private void updateSopaPane(){
         sopa.getChildren().clear();
@@ -135,12 +165,26 @@ public class PartidaController {
             newBox.prefWidth(50);
             newBox.setOnMouseClicked(e -> {
                 moveRowRight(i);
-            });
-            
+            }); 
             VBRightButtons.getChildren().add(newBox);
         }
-    
     }
+    
+    private void loadButtonsLeft(){
+        
+        for(int i = 0; i < cells[0].length ; i++){
+            HBox newBox = new HBox();
+            
+            newBox.getChildren().add(new Text("MOVE"));
+            newBox.prefHeight(50);
+            newBox.prefWidth(50);
+            newBox.setOnMouseClicked(e -> {
+                moveRowLeft(i);
+            }); 
+            VBLeftButtons.getChildren().add(newBox);
+        }
+    }
+    
     
     
 }
