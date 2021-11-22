@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="389.0" style="-fx-background-color: #F4E7DB;&#10;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="espol.sopadeletras.PreguntaController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="389.0" style="-fx-background-color: #F4E7DB;&#10;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="espol.sopadeletras.Pregunta3Controller">
   <children>
     <VBox fx:id="vboxElementos" alignment="CENTER" layoutX="33.0" layoutY="20.0" prefHeight="200.0" prefWidth="288.0">
       <children>
@@ -21,6 +21,21 @@
                   <String fx:value="10x10" />
                   <String fx:value="13x13" />
                   <String fx:value="15x15" />
+                </FXCollections>
+              </items>
+            </ComboBox>
+          </children>
+        </HBox>
+        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+          <children>
+            <Label text="Categoría:    " />
+            <ComboBox id="cb2">
+              <items>
+                <FXCollections fx:factory="observableArrayList">
+                  <String fx:value="ANIMALES" />
+                  <String fx:value="CIUDADES" />
+                  <String fx:value="FRUTAS" />
+                  <String fx:value="NOMBRES" />
                 </FXCollections>
               </items>
             </ComboBox>

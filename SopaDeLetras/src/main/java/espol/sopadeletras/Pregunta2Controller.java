@@ -9,10 +9,12 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
-public class PreguntaController {
+public class Pregunta2Controller {
+	@FXML
+	private static ComboBox<String> cb1 = new ComboBox<String>();
 
     @FXML
-    private static ComboBox<String> cb1 = new ComboBox<String>();
+    private static TextField cuadroT2;
     @FXML
     private static TextField cuadroT3;
     @FXML
@@ -31,13 +33,17 @@ public class PreguntaController {
         System.out.println("Combobox inicializado");
     }
     
-    
-    public static String getMedidaValue() {
+    public static String getMedidaValue2() {
     	String seleccion = cb1.getValue();
 		return seleccion;
     }
+    
+    public static String getTimeValue() {
+    	String seleccion = cuadroT2.getText();
+		return seleccion;
+    }
 
-    public static String getNameValue() {
+    public static String getNameValue2() {
     	String seleccion = cuadroT3.getText();
     	return seleccion;
     }
@@ -54,8 +60,13 @@ public class PreguntaController {
    @FXML
     private void switchToJugar(ActionEvent event) throws IOException {
         //App.setRoot("secondary");
+    	/**String sel1 = getComboValue();
+    	String sel2 = getNameValue();
+    	if((sel1 == null) || sel2 == null) {
+    		mostrarAlerta(Alert.AlertType.INFORMATION,"Completa todos los campos");
+    	}**/
     	
-        App.switchScenes(event, "Partida", 882, 654);
+        App.switchScenes(event, "PartidaEXTREME", 882, 654);
         
     }
     

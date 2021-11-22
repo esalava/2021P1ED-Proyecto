@@ -14,7 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-public class PartidaEXTREMEController {
+public class PartidaCATEController {
 
     @FXML
     private GridPane sopa2;
@@ -35,26 +35,24 @@ public class PartidaEXTREMEController {
     private Text textPoints2;
 
     @FXML
-    private Text textTime;
+    private Text textCate;
 
-
+    
+  
     
     int rows = 10;
     int columns = 10;
     Cell cells[][] = new Cell[rows][columns];
     
     @FXML
-    private void switchToSecondary() throws IOException {
+    private void switchTo() throws IOException {
         App.setRoot("MenuPrincipal");
     }
 
     @FXML
     private void initialize() {
+        
     	
-    	textTime.setText(Integer.toString(4));
-    	Thread hiloCuenta = new Thread(new DecrementaCuenta());
-        hiloCuenta.setDaemon(true);
-        hiloCuenta.start();
         sopa2.setGridLinesVisible(true);
         for (int y = 0; y < rows; y++) {
             for (int x = 0; x < columns; x++) {
@@ -159,36 +157,9 @@ public class PartidaEXTREMEController {
         alert.showAndWait();
     }
     
-    class DecrementaCuenta implements Runnable {
-
-        private int count = 5;
-
-        
-        private void decrementCount() {
-        if(count==0) {/**mostrarAlerta(Alert.AlertType.INFORMATION,"Se ha acabado el tiempo :)"**/
-        	System.out.println("SE ACABOOOO");
-        			  count--;}
-        else {
-            count--;
-            textTime.setText(Integer.toString(count));}
-        }
-
-        @Override
-        public void run() {
-            while (count>=0) {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException ex) {
-                }
-
-                decrementCount();
-            }
-        }
-
-    }
+    
     
     
     
 }
-    
     

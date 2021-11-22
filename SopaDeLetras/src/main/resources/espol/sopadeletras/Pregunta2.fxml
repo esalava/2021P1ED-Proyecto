@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="389.0" style="-fx-background-color: #F4E7DB;&#10;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="espol.sopadeletras.PreguntaController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="389.0" style="-fx-background-color: #F4E7DB;&#10;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="espol.sopadeletras.Pregunta2Controller">
   <children>
     <VBox fx:id="vboxElementos" alignment="CENTER" layoutX="33.0" layoutY="20.0" prefHeight="200.0" prefWidth="288.0">
       <children>
@@ -24,6 +24,12 @@
                 </FXCollections>
               </items>
             </ComboBox>
+          </children>
+        </HBox>
+        <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
+          <children>
+            <Label text="Tiempo:        " />
+            <TextField fx:id="cuadroT2" prefWidth="200.0" style="-fx-background-color: #E8DCD0" />
           </children>
         </HBox>
         <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
