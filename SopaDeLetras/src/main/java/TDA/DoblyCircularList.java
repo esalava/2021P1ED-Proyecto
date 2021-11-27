@@ -1,8 +1,11 @@
 package TDA;
+
+import java.util.Iterator;
+
 /*
     Lista circular doblemente enlazada
 */
-public class DoblyCircularList<E> implements List<E> {
+public class DoblyCircularList<E> implements List<E>, Iterable<E> {
     private CircularDoblyNodeList<E> last;
     private int size;
     
@@ -38,9 +41,37 @@ public class DoblyCircularList<E> implements List<E> {
         return true;
     }
     
+    /*Puede añadir un elemento en una posicion n de la lista (incluye que puede
+    agregarlo al final de la lista)*/
+    public boolean addAt(E e, int pos){
+           
+    if (e!= null && pos >=0 && pos <= this.size()){
+      CircularDoblyNodeList<E> newNode = new CircularDoblyNodeList<>(e);
+      CircularDoblyNodeList<E> p = last.getNext();
+      
+      if(pos == this.size()){
+          //No se añade size++ porque el metodo addLast lo tiene implementado
+          this.addLast(e); 
+          return true;
+      }
+      
+      for(int i=0 ; i<pos ; i++){
+        p=p.getNext();
+      }
+      
+      /*Actualizacion de los nodos*/
+      newNode.setNext(p);
+      p.getPrevious().setNext(newNode);
+      newNode.setPrevious(p.getPrevious());
+      p.setPrevious(newNode);
+      size++;
+      
+      return true;
+    }
+    return false;
+  }
     
-    
-    
+    /*BORRAR AL FINAL*/
     public void show(){
         CircularDoblyNodeList<E> travellerNode;
         
@@ -51,49 +82,23 @@ public class DoblyCircularList<E> implements List<E> {
         System.out.println("");
     }
 
-    public int size() {
-        /*
-        
-        // SE UTILIZA SI ES QUE NO HUBIESE UN ATRIBUTO SIZE
-        
-        int s = 0;
-        //
-        if(last == null){
-            return 0;
-        } else {
-            CircularDoblyNodeList<E> travellerNode;
-            for(travellerNode = last.getNext(); travellerNode != last ; travellerNode = travellerNode.getNext()){
-                s++;
-            }
-            s++;
-            
-        }
-        
-        return s;*/
-        
-        
+    public int size() { 
         return size;
     }
     
-    
-    //Funciona como indice en un ArrayList
+    //Funciona como indice en un ArrayList O(n)
     public E getIndex(int index){
         CircularDoblyNodeList<E> travellerNode;
         int i = 0;
         
         for(travellerNode = last.getNext(); i < size ; travellerNode = travellerNode.getNext()){
-            
             if( i == index ){
                 return travellerNode.getContent();            
             }    
-            
             i++;
-           
         }
-        
         return null;
     }
-    
     
     //Complejidad de O(n)
     public void doRightBitshifting(){
@@ -103,8 +108,8 @@ public class DoblyCircularList<E> implements List<E> {
         for(travellerNode = last; travellerNode != last.getNext() ; travellerNode = travellerNode.getPrevious()){
                travellerNode.setContent(travellerNode.getPrevious().getContent());
         }
+        
         last.getNext().setContent(temporaryFirstValue);
-
     }
     
     //Complejidad de O(n)
@@ -115,18 +120,17 @@ public class DoblyCircularList<E> implements List<E> {
         for(travellerNode = last.getNext(); travellerNode != last ; travellerNode = travellerNode.getNext()){
                travellerNode.setContent(travellerNode.getNext().getContent());
         }
+        
         last.setContent(temporaryFirstValue);
-
     }
     
-    
+    //Complejidad de O(n)
     public boolean setAt(E element, int index){
 
         CircularDoblyNodeList<E> travellerNode;
         int i = 0;
         if(index >= this.size()){ //se controla para que no sobreescriba
             return false;
-        
         }
         
         for(travellerNode = last.getNext(); i <= index; travellerNode = travellerNode.getNext()){   
@@ -140,6 +144,33 @@ public class DoblyCircularList<E> implements List<E> {
         return false;
     }
 
-    
-    
+    @Override
+    public Iterator<E> iterator() {
+        Iterator<E> iterator = new Iterator<E>() {
+            CircularDoblyNodeList<E> cursor = last.getNext(); //Se toma de referencia el primero
+            int contador = 0;
+            int lim_superior = size; 
+            
+            
+            @Override
+            public boolean hasNext() {
+                return cursor != null;
+            }
+
+            @Override
+            public E next() {
+                CircularDoblyNodeList<E> element = cursor;
+                contador++;
+                if(contador < lim_superior){
+                    cursor = cursor.getNext();
+                } else {
+                    cursor = null;
+                }
+                
+                return element.getContent();
+            }
+        };
+        
+        return iterator;
+    }
 }
