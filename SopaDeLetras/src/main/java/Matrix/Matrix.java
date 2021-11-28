@@ -13,10 +13,12 @@ import java.util.Iterator;
 public class Matrix implements MatrixMoves {
     private int row;
     private int column;
-    
+    private final String LETRAS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private Random rd;
     private DoblyCircularList<DoblyCircularList<Character>> matrix;
     
     public Matrix(int row, int column ){
+        rd = new Random();
         this.row = row;
         this.column = column;
         matrix = new DoblyCircularList<>();
@@ -256,15 +258,28 @@ public class Matrix implements MatrixMoves {
 
     }
     
-    public void insertRandomColumnAt(int index){
-        
+    public void insertRandomRowAt(int index){
+        int rowSize = matrix.getIndex(0).size();
+        DoblyCircularList<Character> newRow = new DoblyCircularList<>();
+        for(int i = 0 ; i < rowSize ; i++){
+            Character c = LETRAS.charAt(rd.nextInt(LETRAS.length()));
+            newRow.addLast(c);
+        }
+        matrix.addAt(newRow, index);  
     }
     
     
-    
-    
-    
-    
-    
-    
+    public void insertRandomColumnAt(int index){
+        int columnSize = matrix.size();
+        DoblyCircularList<Character> newColumn = new DoblyCircularList<>();
+        for(int i = 0 ; i < columnSize ; i++){
+            Character c = LETRAS.charAt(rd.nextInt(LETRAS.length()));
+            newColumn.addLast(c);
+        }
+        Iterator <DoblyCircularList<Character>> rowIterator = matrix.iterator();
+        Iterator<Character> newElementIterator = newColumn.iterator();
+        while(rowIterator.hasNext()){
+            rowIterator.next().addAt(newElementIterator.next(), index);
+        }
+    }
 }

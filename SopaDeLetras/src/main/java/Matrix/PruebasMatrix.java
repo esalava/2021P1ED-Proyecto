@@ -17,5 +17,11 @@ public class PruebasMatrix {
         matrix.moveColumnDownAt(0);
         System.out.println("******************************");
         matrix.showMatrix();
+        System.out.println("******************");
+        matrix.insertRandomRowAt(0);
+        matrix.showMatrix();
+        System.out.println("******************");
+        matrix.insertRandomColumnAt(0);
+        matrix.showMatrix();
     }
 }
