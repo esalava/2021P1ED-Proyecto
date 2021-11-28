@@ -114,6 +114,10 @@ public class Matrix implements MatrixMoves {
 
     }
     
+    public void insertRandomColumnAt(int index){
+        
+    }
+    
     
     
     
