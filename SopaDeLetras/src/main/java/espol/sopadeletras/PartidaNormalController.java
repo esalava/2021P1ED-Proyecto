@@ -33,6 +33,8 @@ public class PartidaNormalController {
 
     @FXML
     private Text textWord;
+    
+    private String ACTUALWORD = "";
 
     @FXML
     private Text textPoints;
@@ -96,6 +98,7 @@ public class PartidaNormalController {
                 vbox.setAlignment(Pos.CENTER);
                 vbox.setOnMouseClicked(e -> {
                     vbox.setBackground(new Background(new BackgroundFill(Color.DARKORANGE, null, null)));
+                    updateWord(c);
                 });
              
                 
@@ -139,8 +142,6 @@ public class PartidaNormalController {
     }
     
     
-    
-    
     /** actualiza la sopa de letras: el metodo debe ser llamado en cualquier
      *  cambio de la sopa
      **/
@@ -168,6 +169,7 @@ public class PartidaNormalController {
                 vbox.setAlignment(Pos.CENTER);
                 vbox.setOnMouseClicked(e -> {
                     vbox.setBackground(new Background(new BackgroundFill(Color.DARKORANGE, null, null)));
+                    updateWord(c);
                 });
              
                 
@@ -335,6 +337,15 @@ public class PartidaNormalController {
     @FXML
     void cleanSopa(ActionEvent event) {
         updateSopaPane();
+        
+        //Se borra lo que estaba seleccionado
+        ACTUALWORD = "";
+        textWord.setText(ACTUALWORD);
+    }
+    
+    private void updateWord(Character c){
+        ACTUALWORD += c + "";
+        textWord.setText(ACTUALWORD);
     }
     
 }
