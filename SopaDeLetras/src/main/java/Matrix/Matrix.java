@@ -45,7 +45,7 @@ public class Matrix {
       DoblyCircularList<String> listaPalabras = leerPalabras("palabras.txt");
       Random r = new Random();
 
-      //FORRRRR para agregar más palabras
+      //FORRRRR
       //for (int c=0; c<6;c++){
       int x = r.nextInt(row);
       int y = r.nextInt(column);
@@ -56,69 +56,138 @@ public class Matrix {
 
       boolean invertirONo = r.nextBoolean();
 
-      int numOrient = 0;
       while (lenPal>row && lenPal>column){
-        if (lenPal<=row && lenPal>column) {
-          numOrient = 1; //agg vertical
-        } else if (lenPal<=column && lenPal>row){
-          numOrient = 0; //agg horizontal
-        } else if (lenPal <= column && lenPal<=row) {
-          numOrient = r.nextInt(2); 
-        } else{
-          indexpalabra = r.nextInt(listaPalabras.size());
-          palabra = listaPalabras.getIndex(indexpalabra);
-          lenPal = palabra.length();
-        }
+        indexpalabra = r.nextInt(listaPalabras.size());
+        palabra = listaPalabras.getIndex(indexpalabra);
+        lenPal = palabra.length();
       }
 
       if (invertirONo){
         palabra = invertirPalabra(palabra);
-        //System.out.println(palabra);
       }
+      System.out.println(palabra);
+      
+      int numOrient = r.nextInt(3);
 
-
-      //int numOrient = r.nextInt(2);
       switch (numOrient){
         case 0:
           //horizontal
-          DoblyCircularList<Character> actualRow = matrixRow.getIndex(x);
+          if ((lenPal<=column && lenPal>row) || (lenPal <= column && lenPal<=row)){
+            DoblyCircularList<Character> actualRow = matrixRow.getIndex(x);
         
-          for (int i=0;i<lenPal;i++){
-            Character letra = Character.toUpperCase(palabra.charAt(i));
-            int indice = i+y;
-            if (indice>=column){
-              indice = indice-column;
-            } 
-            boolean conf = actualRow.setAt(letra,indice);
+            for (int i=0;i<lenPal;i++){
+              Character letra = Character.toUpperCase(palabra.charAt(i));
+              int indice = i+y;
+              if (indice>=column){
+                indice = indice-column;
+              } 
+              boolean conf = actualRow.setAt(letra,indice);
+            }
           }
           break;
         case 1:
           //VERTICAL
-          for (int i=0; i<lenPal;i++){
-            int indice = i+x;
-            Character letra = Character.toUpperCase(palabra.charAt(i));
-            if (indice>=row){
-              indice = indice-row;
-            } 
-            DoblyCircularList<Character> actualrow = matrixRow.getIndex(indice);
-            boolean conf = actualrow.setAt(letra, y);
+          if ((lenPal<=row && lenPal>column) || (lenPal <= column && lenPal<=row)){
+            for (int i=0; i<lenPal;i++){
+              int indice = i+x;
+              Character letra = Character.toUpperCase(palabra.charAt(i));
+              if (indice>=row){
+                indice = indice-row;
+              } 
+              DoblyCircularList<Character> actualrow = matrixRow.getIndex(indice);
+              boolean conf = actualrow.setAt(letra, y);
+            }
           }
           break;
 
         case 2:
           //DIAGONAL
-          /*
-          se debe validar a que lado va a ingresar la palabra para que alcance
-          en la diagonal.
+          int indx = x;
+          int indy = y;
+          int cont=0;
+          int cont2=1;
+          System.out.println("x= "+String.valueOf(x));
+          System.out.println("y= "+String.valueOf(y));
+          System.out.println("len = "+ String.valueOf(lenPal));
+
+          //len que entran derecha abajo
+          while (indx<row && indy<column){ 
+            indx++;
+            indy++;
+            cont++;
+          }
+          indx = x;
+          indy = y;
+          //len que entran izquierda arriba
+          while (indx>0 && indy>0){
+            indx--;
+            indy--;
+            cont2++;
+          }
+          indx = x;
+          indy = y;
+          int cont3=0;
+          //len que entran izquierda abajo
+          while (indx<row && indy>0){
+            indx++;
+            indy--;
+            cont3++;
+          }
+          indx = x;
+          indy = y;
+          int cont4=0;
+          //len que entran derecha arriba
+          while (indx>0 && indy<column){
+            indx--;
+            indy++;
+            cont4++;
+          }
           
-          */
+          //System.out.println("derecha abajo = "+String.valueOf(cont));
+          //System.out.println("izquierda arriba = "+String.valueOf(cont2));
+          //System.out.println("izquierda abajo = "+String.valueOf(cont3));
+          //System.out.println("derecha arriba = "+String.valueOf(cont4));
+
+
+          for (int i=0;i<lenPal;i++){
+            if (lenPal<cont){
+              int indicex = x+i;
+              int indicey = y+i;
+              Character letra = Character.toUpperCase(palabra.charAt(i));
+              DoblyCircularList<Character> actualrow = matrixRow.getIndex(indicex);
+              boolean conf = actualrow.setAt(letra, indicey);
+
+            } else if (lenPal<cont2){
+              int indicex = x-i;
+              int indicey = y-i;
+              Character letra = Character.toUpperCase(palabra.charAt(i));
+              DoblyCircularList<Character> actualrow = matrixRow.getIndex(indicex);
+              boolean conf = actualrow.setAt(letra, indicey);
+
+            } else if (lenPal<cont3){
+              int indicex = x+i;
+              int indicey = y-i;
+              Character letra = Character.toUpperCase(palabra.charAt(i));
+              DoblyCircularList<Character> actualrow = matrixRow.getIndex(indicex);
+              boolean conf = actualrow.setAt(letra, indicey);
+
+            } else if (lenPal<cont4){
+              int indicex = x-i;
+              int indicey = y+i;
+              Character letra = Character.toUpperCase(palabra.charAt(i));
+              DoblyCircularList<Character> actualrow = matrixRow.getIndex(indicex);
+              boolean conf = actualrow.setAt(letra, indicey);
+            }
+            
+            
+          }
+          
 
       }
        
       //}
       
     }
-      
     
     
     //METODO PARA LEER LAS PALABRAS DEL ARCHIVO, RETORNA LISTA
