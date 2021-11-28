@@ -18,10 +18,11 @@ public class PruebasMatrix {
         System.out.println("******************************");
         matrix.showMatrix();
         System.out.println("******************");
-        matrix.insertRandomRowAt(0);
+        matrix.deleteColumnAt(4);
         matrix.showMatrix();
-        System.out.println("******************");
-        matrix.insertRandomColumnAt(0);
+        System.out.println("*****************");
+        matrix.deleteRowAt(4);
         matrix.showMatrix();
+        
     }
 }

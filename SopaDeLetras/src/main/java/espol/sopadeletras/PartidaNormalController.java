@@ -7,10 +7,12 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.Random;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -51,6 +53,8 @@ public class PartidaNormalController {
     private HBox HBDownButtons;
     
     private final String LETRAS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    
+    private int cantidadAddDelete = 0;
 
     
     int rows = 10;
@@ -144,10 +148,11 @@ public class PartidaNormalController {
     private void updateSopaPane(){
         MATRIX.showMatrix();
         sopa.getChildren().clear();
+        
         DoblyCircularList<DoblyCircularList<Character>> matrixList = MATRIX.getMatrix();
         Iterator<DoblyCircularList<Character>> rowIterator = matrixList.iterator();
         int y = 0;
-        
+        sopa.setGridLinesVisible(true);
         while(rowIterator.hasNext()){
             DoblyCircularList<Character> columnElements = rowIterator.next();
             Iterator<Character> colElementsIterator = columnElements.iterator();
@@ -246,6 +251,90 @@ public class PartidaNormalController {
             HBDownButtons.getChildren().add(newBox);
         }
     
-    
     }   
+    
+    private void updateButtons(){
+        VBRightButtons.getChildren().clear();
+        VBLeftButtons.getChildren().clear();
+        HBUpButtons.getChildren().clear();
+        HBDownButtons.getChildren().clear();
+        
+        loadAllButtons();
+    }
+    
+    @FXML
+    void addColumn(ActionEvent event) {
+        if (cantidadAddDelete < 2){
+            MATRIX.insertRandomColumnAt(0);
+            updateSopaPane();
+            updateButtons();
+            cantidadAddDelete++;
+            mostrarAlerta(Alert.AlertType.INFORMATION, "Quedan " + Integer.toString(2-cantidadAddDelete) + " oportunidades disponibles");
+        } else {
+            mostrarAlerta(Alert.AlertType.WARNING, "HA ALCANZADO LAS OPORTUNIDADES MAXIMAS DE AGREGAR O ELIMINAR FILAS/COLUMNAS");
+            System.out.println("YA NO PUEDE AGREGAR/ELIMINAR FILAS/COLUMNAS");
+          //warning   
+        }
+    }
+
+    @FXML
+    void addRow(ActionEvent event) {  
+        if (cantidadAddDelete < 2){
+            MATRIX.insertRandomRowAt(0);
+            updateSopaPane();
+            updateButtons();
+            cantidadAddDelete++;
+            mostrarAlerta(Alert.AlertType.INFORMATION, "Quedan " + Integer.toString(2-cantidadAddDelete) + " oportunidades disponibles");
+        } else {
+            mostrarAlerta(Alert.AlertType.ERROR, "HA ALCANZADO LAS OPORTUNIDADES MAXIMAS DE AGREGAR O ELIMINAR FILAS/COLUMNAS");
+            System.out.println("YA NO PUEDE AGREGAR/ELIMINAR FILAS/COLUMNAS");
+          //warning   
+        }
+    }
+
+    @FXML
+    void deleteColumn(ActionEvent event) {
+        if (cantidadAddDelete < 2){
+            MATRIX.deleteColumnAt(0);
+            updateSopaPane();
+            updateButtons();
+            cantidadAddDelete++;
+            mostrarAlerta(Alert.AlertType.INFORMATION, "Quedan " + Integer.toString(2-cantidadAddDelete) + " oportunidades disponibles");
+        } else {
+            mostrarAlerta(Alert.AlertType.ERROR, "HA ALCANZADO LAS OPORTUNIDADES MAXIMAS DE AGREGAR O ELIMINAR FILAS/COLUMNAS");
+            System.out.println("YA NO PUEDE AGREGAR/ELIMINAR FILAS/COLUMNAS");
+          //warning   
+        }
+        
+    }  
+
+    @FXML
+    void deleteRow(ActionEvent event) {
+        if (cantidadAddDelete < 2){
+            MATRIX.deleteRowAt(0);
+            updateSopaPane();
+            updateButtons();
+            cantidadAddDelete++;
+            mostrarAlerta(Alert.AlertType.INFORMATION, "Quedan " + Integer.toString(2-cantidadAddDelete) + " oportunidades disponibles");
+        } else {
+            mostrarAlerta(Alert.AlertType.ERROR, "HA ALCANZADO LAS OPORTUNIDADES MAXIMAS DE AGREGAR O ELIMINAR FILAS/COLUMNAS");
+            System.out.println("YA NO PUEDE AGREGAR/ELIMINAR FILAS/COLUMNAS");
+          //warning   
+        }
+    }
+    
+    private void mostrarAlerta(Alert.AlertType tipo, String mensaje) {
+        Alert alert = new Alert(tipo);
+
+        alert.setTitle("Resultado de operacion");
+        alert.setHeaderText("Notificacion");
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
+    
+    @FXML
+    void cleanSopa(ActionEvent event) {
+        updateSopaPane();
+    }
+    
 }

@@ -268,7 +268,6 @@ public class Matrix implements MatrixMoves {
         matrix.addAt(newRow, index);  
     }
     
-    
     public void insertRandomColumnAt(int index){
         int columnSize = matrix.size();
         DoblyCircularList<Character> newColumn = new DoblyCircularList<>();
@@ -280,6 +279,17 @@ public class Matrix implements MatrixMoves {
         Iterator<Character> newElementIterator = newColumn.iterator();
         while(rowIterator.hasNext()){
             rowIterator.next().addAt(newElementIterator.next(), index);
+        }
+    }
+    
+    public void deleteRowAt(int index){
+        matrix.deleteAt(index);
+    }
+    
+    public void deleteColumnAt(int index){
+        Iterator<DoblyCircularList<Character>> iterator = matrix.iterator();
+        while(iterator.hasNext()){
+            iterator.next().deleteAt(index);
         }
     }
 }

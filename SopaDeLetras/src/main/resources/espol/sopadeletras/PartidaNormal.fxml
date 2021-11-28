@@ -17,15 +17,32 @@
   <VBox alignment="BOTTOM_RIGHT" prefHeight="320.0" prefWidth="154.0" style="-fx-background-color: #88DBC2;&#10;-fx-border-color: #000000" BorderPane.alignment="CENTER">
     <children>
       <VBox prefHeight="219.0" prefWidth="152.0" />
-            <HBox alignment="CENTER" prefHeight="44.0" prefWidth="152.0">
+            <HBox alignment="CENTER" prefHeight="84.0" prefWidth="152.0">
                <children>
-                  <Button mnemonicParsing="false" text="Add" />
-                  <Button mnemonicParsing="false" text="Delete" />
+                  <VBox prefHeight="84.0" prefWidth="147.0">
+                     <children>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Columnas:" />
+                              <Button mnemonicParsing="false" onAction="#deleteColumn" text="Delete" />
+                              <Button mnemonicParsing="false" onAction="#addColumn" text="Add" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Filas" wrappingWidth="53.869140625" />
+                              <Button mnemonicParsing="false" onAction="#deleteRow" text="Delete" />
+                              <Button mnemonicParsing="false" onAction="#addRow" text="Add" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
                </children>
             </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #F6E6A7;&#10;-fx-border-color: #000000">
         <children>
-          <Button mnemonicParsing="false" prefHeight="28.0" prefWidth="77.0" text="VALIDAR" />
+                  <Button mnemonicParsing="false" onAction="#cleanSopa" prefHeight="25.0" prefWidth="66.0" text="LIMPIAR" />
+          <Button mnemonicParsing="false" prefHeight="18.0" prefWidth="77.0" text="VALIDAR" />
         </children>
       </HBox>
     </children>
@@ -84,7 +101,7 @@
                         </Text>
                      </children>
                   </VBox>
-                  <VBox alignment="CENTER" prefHeight="50.0" prefWidth="462.0">
+                  <VBox alignment="CENTER" prefHeight="58.0" prefWidth="404.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Palabra:" />
                         <Text fx:id="textWord" strokeType="OUTSIDE" strokeWidth="0.0" text="ELEFANTE">
@@ -122,6 +139,7 @@
                         </Text>
                      </children>
                   </VBox>
+                  <Button mnemonicParsing="false" prefHeight="52.0" prefWidth="60.0" text="GIVE UP" />
                </children>
             </HBox>
          </children>
