@@ -98,11 +98,11 @@ public class Matrix implements MatrixMoves {
     //ACTUALIZAR RUTA, YO LO HICE EN REPLIT POR ESO NO NECESITABA RUTA, si funciona
     //metodo para cargar palabras a la sopa de letras
     
-    public void agregarPalabras(){
+  public void agregarPalabras(){
     DoblyCircularList<String> listaPalabras = Word.loadWords("src/main/resources/espol/palabras.txt");
     Random r = new Random();
 
-    
+    //FORRRRR
     int conteo = 0;
     while (conteo <6){  //NUMERO DE PALABRAS QUE SE VAN A INGRESAR
     int x = r.nextInt(row);
@@ -259,10 +259,26 @@ public class Matrix implements MatrixMoves {
       } //switch
       }   //if de v
     } //if  
+    rellenarRandom();
   }
+        
+    
+  public void rellenarRandom(){
+    Iterator<DoblyCircularList<Character>> it = matrix.iterator();
+    while (it.hasNext()){
+      DoblyCircularList<Character> lista = it.next();
+      for (int j=0;j<row;j++){
+        Character letter = lista.getIndex(j);
+        if (letter=='0'){
+          Random random = new Random();
+          char rand = (char) (random.nextInt(26) + 'A');
+          lista.setAt(rand, j);
+        }
+      }
+    }
+  }  
 
   public boolean confirmar(int x, int y, String palabra, int orientacion){
-    //Stack<Character> pila1 = new Stack<>();
     int len = palabra.length();
     boolean confirmacion = true;
 
