@@ -99,7 +99,7 @@ public class Matrix implements MatrixMoves {
     //metodo para cargar palabras a la sopa de letras
     
     public void agregarPalabras(){
-    DoblyCircularList<String> listaPalabras = Words.loadWords("palabras.txt");
+    DoblyCircularList<String> listaPalabras = Word.loadWords("palabras.txt");
     Random r = new Random();
 
     
