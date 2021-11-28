@@ -8,17 +8,18 @@ import java.io.FileReader;
 import java.util.Stack;
 import java.util.Random;
 import java.lang.Character;
+import java.util.Iterator;
 
-public class Matrix {
+public class Matrix implements MatrixMoves {
     private int row;
     private int column;
     
-    private DoblyCircularList<DoblyCircularList<Character>> matrixRow;
+    private DoblyCircularList<DoblyCircularList<Character>> matrix;
     
     public Matrix(int row, int column ){
         this.row = row;
         this.column = column;
-        matrixRow = new DoblyCircularList<>();
+        matrix = new DoblyCircularList<>();
         for(int i = 0; i < row ; i++){
             DoblyCircularList<Character> actualrow = new DoblyCircularList<>();
             for(int j = 0; j<column; j++){
@@ -26,23 +27,77 @@ public class Matrix {
               char rand = (char) (random.nextInt(26) + 'A');   //Letra aleatoria
                 actualrow.addLast(rand); // valor con el que se inicializa la matriz
             }
-            matrixRow.addLast(actualrow);
+            matrix.addLast(actualrow);
         }
+    }
+    
+    public DoblyCircularList<DoblyCircularList<Character>> getMatrix(){
+        return matrix;
     }
     
     //metodo para mostrar la matriz y sus valores
     public void showMatrix(){
-        for(int i = 0; i < row ; i++){
-            DoblyCircularList<Character> actualrow = matrixRow.getIndex(i);
-            actualrow.show();
+        Iterator<DoblyCircularList<Character>> iterator = matrix.iterator();
+        while(iterator.hasNext()){
+            iterator.next().show();
         }
+    }
+    
+    @Override
+    public void moveRowToRightAt(int index){
+        DoblyCircularList<Character> actualRow = matrix.getIndex(index);
+        actualRow.doRightBitshifting();
+        matrix.setAt(actualRow, index);
+    }
+    
+    @Override
+    public void moveRowToLeftAt(int index){
+        DoblyCircularList<Character> actualRow = matrix.getIndex(index);
+        actualRow.doLeftBitshifting();
+        matrix.setAt(actualRow, index);
+    }
+    
+    @Override
+    public void moveColumnUpAt(int index){
+        Iterator<DoblyCircularList<Character>> iterator = matrix.iterator();
+        DoblyCircularList<Character> actualColumn = new DoblyCircularList<>();
+        while(iterator.hasNext()){
+            actualColumn.addLast(iterator.next().getIndex(index));
+        }
+        
+        actualColumn.doLeftBitshifting();
+        
+        Iterator<DoblyCircularList<Character>> rowIterator = matrix.iterator();
+        Iterator<Character> newColumnIterator = actualColumn.iterator();
+        while(rowIterator.hasNext() && newColumnIterator.hasNext()){
+            rowIterator.next().setAt(newColumnIterator.next(), index);
+        }
+    
+    }
+    
+    @Override
+    public void moveColumnDownAt(int index){
+        Iterator<DoblyCircularList<Character>> iterator = matrix.iterator();
+        DoblyCircularList<Character> actualColumn = new DoblyCircularList<>();
+        while(iterator.hasNext()){
+            actualColumn.addLast(iterator.next().getIndex(index));
+        }
+        
+        actualColumn.doRightBitshifting();
+        
+        Iterator<DoblyCircularList<Character>> rowIterator = matrix.iterator();
+        Iterator<Character> newColumnIterator = actualColumn.iterator();
+        while(rowIterator.hasNext() && newColumnIterator.hasNext()){
+            rowIterator.next().setAt(newColumnIterator.next(), index);
+        }
+    
     }
     
     //ACTUALIZAR RUTA, YO LO HICE EN REPLIT POR ESO NO NECESITABA RUTA, si funciona
     //metodo para cargar palabras a la sopa de letras
     
     public void agregarPalabras(){
-      DoblyCircularList<String> listaPalabras = leerPalabras("palabras.txt");
+      DoblyCircularList<String> listaPalabras = Word.loadWords("palabras.txt");
       Random r = new Random();
 
       //FORRRRR para agregar más palabras
@@ -50,7 +105,7 @@ public class Matrix {
       int x = r.nextInt(row);
       int y = r.nextInt(column);
 
-      int indexpalabra = r.nextInt(listaPalabras.size());
+      int indexpalabra = r.nextInt(2);
       String palabra = listaPalabras.getIndex(indexpalabra);
       int lenPal = palabra.length(); 
 
@@ -81,7 +136,7 @@ public class Matrix {
       switch (numOrient){
         case 0:
           //horizontal
-          DoblyCircularList<Character> actualRow = matrixRow.getIndex(x);
+          DoblyCircularList<Character> actualRow = matrix.getIndex(x);
         
           for (int i=0;i<lenPal;i++){
             Character letra = Character.toUpperCase(palabra.charAt(i));
@@ -100,7 +155,7 @@ public class Matrix {
             if (indice>=row){
               indice = indice-row;
             } 
-            DoblyCircularList<Character> actualrow = matrixRow.getIndex(indice);
+            DoblyCircularList<Character> actualrow = matrix.getIndex(indice);
             boolean conf = actualrow.setAt(letra, y);
           }
           break;
@@ -119,31 +174,11 @@ public class Matrix {
       
     }
       
-    
-    
-    //METODO PARA LEER LAS PALABRAS DEL ARCHIVO, RETORNA LISTA
-    public static DoblyCircularList<String> leerPalabras(String ruta){
-        DoblyCircularList<String> listaPalabras = new DoblyCircularList<>();
-        try {
-            FileReader reader = new FileReader(ruta);
-            BufferedReader br = new BufferedReader(reader);
-            String linea;
-            while ((linea = br.readLine())!= null){
-                listaPalabras.addLast(linea.strip());
-            }
-            reader.close();
-        } catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-        return listaPalabras;
-    }
-    
-    
     public static String invertirPalabra(String palabra){
         Stack<Character> pila = new Stack<>();
         String palabraInvert = "";
         for (int i=0; i<palabra.length(); i++){
-            pila.push(String.valueOf(palabra.charAt(i)));
+            pila.push(palabra.charAt(i));
         }
         while (!pila.isEmpty()){
             palabraInvert += pila.pop();
