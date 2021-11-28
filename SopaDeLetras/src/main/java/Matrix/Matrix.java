@@ -99,81 +99,8 @@ public class Matrix implements MatrixMoves {
     public void agregarPalabras(){
       DoblyCircularList<String> listaPalabras = Word.loadWords("palabras.txt");
       Random r = new Random();
-
-      //FORRRRR para agregar más palabras
-      //for (int c=0; c<6;c++){
-      int x = r.nextInt(row);
-      int y = r.nextInt(column);
-
-      int indexpalabra = r.nextInt(2);
-      String palabra = listaPalabras.getIndex(indexpalabra);
-      int lenPal = palabra.length(); 
-
-      boolean invertirONo = r.nextBoolean();
-
-      int numOrient = 0;
-      while (lenPal>row && lenPal>column){
-        if (lenPal<=row && lenPal>column) {
-          numOrient = 1; //agg vertical
-        } else if (lenPal<=column && lenPal>row){
-          numOrient = 0; //agg horizontal
-        } else if (lenPal <= column && lenPal<=row) {
-          numOrient = r.nextInt(2); 
-        } else{
-          indexpalabra = r.nextInt(listaPalabras.size());
-          palabra = listaPalabras.getIndex(indexpalabra);
-          lenPal = palabra.length();
-        }
-      }
-
-      if (invertirONo){
-        palabra = invertirPalabra(palabra);
-        //System.out.println(palabra);
-      }
-
-
-      //int numOrient = r.nextInt(2);
-      switch (numOrient){
-        case 0:
-          //horizontal
-          DoblyCircularList<Character> actualRow = matrix.getIndex(x);
-        
-          for (int i=0;i<lenPal;i++){
-            Character letra = Character.toUpperCase(palabra.charAt(i));
-            int indice = i+y;
-            if (indice>=column){
-              indice = indice-column;
-            } 
-            boolean conf = actualRow.setAt(letra,indice);
-          }
-          break;
-        case 1:
-          //VERTICAL
-          for (int i=0; i<lenPal;i++){
-            int indice = i+x;
-            Character letra = Character.toUpperCase(palabra.charAt(i));
-            if (indice>=row){
-              indice = indice-row;
-            } 
-            DoblyCircularList<Character> actualrow = matrix.getIndex(indice);
-            boolean conf = actualrow.setAt(letra, y);
-          }
-          break;
-
-        case 2:
-          //DIAGONAL
-          /*
-          se debe validar a que lado va a ingresar la palabra para que alcance
-          en la diagonal.
-          
-          */
-
-      }
-       
-      //}
-      
     }
-      
+
     public static String invertirPalabra(String palabra){
         Stack<Character> pila = new Stack<>();
         String palabraInvert = "";
