@@ -14,15 +14,7 @@ public class PruebasMatrix {
         Matrix matrix = new Matrix(5,5);
         //matrix.agregarPalabras();
         matrix.showMatrix();
-        matrix.moveColumnDownAt(0);
-        System.out.println("******************************");
-        matrix.showMatrix();
-        System.out.println("******************");
-        matrix.deleteColumnAt(4);
-        matrix.showMatrix();
-        System.out.println("*****************");
-        matrix.deleteRowAt(4);
-        matrix.showMatrix();
+        matrix.agregarPalabras();
         
     }
 }
