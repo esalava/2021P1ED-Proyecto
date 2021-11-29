@@ -12,6 +12,12 @@ import javafx.scene.layout.VBox;
 public class Pregunta2Controller {
 	@FXML
 	private static ComboBox<String> cb1 = new ComboBox<String>();
+	
+	public static String nombre;
+    public static String medida;
+    public static int fila;
+    public static int colum;
+    public static String tiempo;
 
     @FXML
     private static TextField cuadroT2;
@@ -33,43 +39,61 @@ public class Pregunta2Controller {
         System.out.println("Combobox inicializado");
     }
     
-    public static String getMedidaValue2() {
-    	String seleccion = cb1.getValue();
-		return seleccion;
-    }
     
-    public static String getTimeValue() {
-    	String seleccion = cuadroT2.getText();
-		return seleccion;
-    }
-
-    public static String getNameValue2() {
-    	String seleccion = cuadroT3.getText();
-    	return seleccion;
-    }
-    
-    private void mostrarAlerta(Alert.AlertType tipo, String mensaje) {
-        Alert alert = new Alert(tipo);
-
-        alert.setTitle("Alerta");
-        alert.setHeaderText("Error de selección");
-        alert.setContentText(mensaje);
-        alert.showAndWait();
-    }
     
    @FXML
     private void switchToJugar(ActionEvent event) throws IOException {
-        //App.setRoot("secondary");
-    	/**String sel1 = getComboValue();
-    	String sel2 = getNameValue();
-    	if((sel1 == null) || sel2 == null) {
-    		mostrarAlerta(Alert.AlertType.INFORMATION,"Completa todos los campos");
-    	}**/
-    	
-        App.switchScenes(event, "PartidaEXTREME", 882, 654);
-        
-    }
+	   if ((cuadroT3.getText() == null) || (cuadroT3.getText().trim().isEmpty()) || (cuadroT2.getText() == null) || (cuadroT2.getText().trim().isEmpty())) {
+           Alert alert = new Alert(Alert.AlertType.ERROR);
+           alert.setHeaderText("Error");
+           alert.setContentText("Completa todos los campos");
+           alert.showAndWait();
+           
+           
+       }else{
+       	App.switchScenes(event, "PartidaEXTREME", 1400, 800);
+           nombre = cuadroT3.getText();
+           medida = cb1.getValue();
+           tiempo = cuadroT2.getText();
+           String filas = medida.substring(0,0);
+           String column = medida.substring(2,2); 
+           fila = Integer.parseInt(filas);
+           colum = Integer.parseInt(column);
+           Alert alert = new Alert(Alert.AlertType.INFORMATION);
+           alert.setHeaderText("Éxito");
+           alert.setContentText("Jugador: "+cuadroT3.getText()+" creado");
+           alert.showAndWait();
+           
+       }
+       
+   }
     
+   
+   public static int getFilaValue() {
+   	return fila;
+   }
+   
+   public static int getColumValue() {
+   	return colum;
+   }
+   
+   public static String getTimeValue() {
+   	return tiempo;
+   }
+
+   public static String getNameValue() {
+   	String seleccion = cuadroT3.getText();
+   	return seleccion;
+   }
+   
+   private void mostrarAlerta(Alert.AlertType tipo, String mensaje) {
+       Alert alert = new Alert(tipo);
+
+       alert.setTitle("Alerta");
+       alert.setHeaderText("Error de selección");
+       alert.setContentText(mensaje);
+       alert.showAndWait();
+   }
     
 
 }
