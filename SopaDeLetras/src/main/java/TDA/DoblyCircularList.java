@@ -1,5 +1,6 @@
 package TDA;
 
+import java.util.Comparator;
 import java.util.Iterator;
 
 /*
@@ -207,5 +208,20 @@ public class DoblyCircularList<E> implements List<E>, Iterable<E> {
         };
 
         return iterator;
+    }
+    
+    public boolean containsElement(E element, Comparator<E> cmp){
+        if (this.size() == 0) {
+            return false;
+        }
+        
+        Iterator<E> iterator = this.iterator();
+        while(iterator.hasNext()){
+            if(cmp.compare(iterator.next(), element) == 0){
+                return true;
+            }
+        }
+        
+        return false;
     }
 }
