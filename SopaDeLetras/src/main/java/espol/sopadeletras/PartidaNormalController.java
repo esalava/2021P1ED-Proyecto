@@ -1,11 +1,15 @@
 package espol.sopadeletras;
 
 import Matrix.Cell;
+import Matrix.LetraMatrix;
 import Matrix.Matrix;
+import Matrix.VerificacionesPalabras;
 import TDA.DoblyCircularList;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Random;
+import java.util.Stack;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -13,6 +17,8 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -31,34 +37,36 @@ public class PartidaNormalController {
     @FXML
     private Text textPlayer;
 
+    /* *********** PALABRA **************/
     @FXML
     private Text textWord;
     
     private String ACTUALWORD = "";
-
+    
+    private DoblyCircularList<LetraMatrix> LISTWORD = new DoblyCircularList<>();
+    /* **********************************/
     @FXML
     private Text textPoints;
 
     @FXML
     private Text textTime;
     
-    //Lugar en donde se encuentran los botones para girar la matriz
+    /************BOTONES PARA MOVER FILAS Y COLUMNAS **********/
     @FXML
     private VBox VBRightButtons;
     @FXML
     private VBox VBLeftButtons;
-    
     @FXML
     private HBox HBUpButtons;
-
     @FXML
     private HBox HBDownButtons;
+    
+    /***********************************************************/
     
     private final String LETRAS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     
     private int cantidadAddDelete = 0;
 
-    
     int rows = 10;
     int columns = 10;
     Cell cells[][] = new Cell[rows][columns];
@@ -96,8 +104,17 @@ public class PartidaNormalController {
                 vbox.getChildren().add(text);
                 vbox.setPrefSize(50, 50);
                 vbox.setAlignment(Pos.CENTER);
+                
+                final int indexX = x;
+                final int indexY = y;
+                
                 vbox.setOnMouseClicked(e -> {
+                    
                     vbox.setBackground(new Background(new BackgroundFill(Color.DARKORANGE, null, null)));
+                    LetraMatrix letraMatrix = new LetraMatrix(indexY, indexX, c);
+                    LISTWORD.addLast(letraMatrix);
+                    
+                    System.out.println(indexY + "," +indexX);
                     updateWord(c);
                 });
              
@@ -108,7 +125,7 @@ public class PartidaNormalController {
             }
             y++;
         }      
-        //loadButtonsRight();
+        
         loadAllButtons();
     }
     
@@ -167,11 +184,19 @@ public class PartidaNormalController {
                 vbox.getChildren().add(text);
                 vbox.setPrefSize(50, 50);
                 vbox.setAlignment(Pos.CENTER);
+                
+                final int indexX = x;
+                final int indexY = y;
+                
                 vbox.setOnMouseClicked(e -> {
+                    
                     vbox.setBackground(new Background(new BackgroundFill(Color.DARKORANGE, null, null)));
+                    LetraMatrix letraMatrix = new LetraMatrix(indexY, indexX, c);
+                    LISTWORD.addLast(letraMatrix);
+                    
+                    System.out.println(indexY + "," +indexX);
                     updateWord(c);
                 });
-             
                 
                 sopa.add(vbox, x,y);
                 
@@ -198,7 +223,18 @@ public class PartidaNormalController {
             final int idx = i;
             HBox newBox = new HBox();
             
-            newBox.getChildren().add(new Text("MOVE"));
+            try(FileInputStream input = new FileInputStream("src/main/resources/espol/images/right_arrow.png")) {
+                Image image = new Image(input, 40, 40, false, false);
+                ImageView imV = new ImageView(image);
+                newBox.getChildren().add(imV);
+                newBox.setAlignment(Pos.CENTER);
+                
+            } catch (Exception e) {
+                System.out.println("Image Not Found");
+            }
+            
+            
+            
             newBox.prefHeight(50);
             newBox.prefWidth(50);
             newBox.setOnMouseClicked(e -> {
@@ -215,7 +251,17 @@ public class PartidaNormalController {
             final int idx = i;
             HBox newBox = new HBox();
             
-            newBox.getChildren().add(new Text("MOVE"));
+            try(FileInputStream input = new FileInputStream("src/main/resources/espol/images/left_arrow.png")) {
+                Image image = new Image(input, 40, 40, false, false);
+                ImageView imV = new ImageView(image);
+                newBox.getChildren().add(imV);
+                newBox.setAlignment(Pos.CENTER);
+                
+            } catch (Exception e) {
+                System.out.println("Image Not Found");
+            }
+            
+           
             newBox.prefHeight(50);
             newBox.prefWidth(50);
             newBox.setOnMouseClicked(e -> {
@@ -231,7 +277,17 @@ public class PartidaNormalController {
             final int idx = i;
             HBox newBox = new HBox();
             
-            newBox.getChildren().add(new Text("MOVE"));
+            try(FileInputStream input = new FileInputStream("src/main/resources/espol/images/up_arrow.png")) {
+                Image image = new Image(input, 40, 40, false, false);
+                ImageView imV = new ImageView(image);
+                newBox.getChildren().add(imV);
+                newBox.setAlignment(Pos.CENTER);
+                
+            } catch (Exception e) {
+                System.out.println("Image Not Found");
+            }
+            
+           
             newBox.setOnMouseClicked(e -> {
                 moveColumnUp(idx);
             }); 
@@ -244,8 +300,18 @@ public class PartidaNormalController {
         for(int i = 0; i < MATRIX.getMatrix().getIndex(0).size() ; i++){
             final int idx = i;
             HBox newBox = new HBox();
+           
+            try(FileInputStream input = new FileInputStream("src/main/resources/espol/images/down_arrow.png")) {
+                Image image = new Image(input, 40, 40, false, false);
+                ImageView imV = new ImageView(image);
+                newBox.getChildren().add(imV);
+                newBox.setAlignment(Pos.CENTER);
+                
+            } catch (Exception e) {
+                System.out.println("Image Not Found");
+            }
             
-            newBox.getChildren().add(new Text("MOVE"));
+            
             newBox.setOnMouseClicked(e -> {
                 moveColumnDown(idx);
             }); 
@@ -340,12 +406,30 @@ public class PartidaNormalController {
         
         //Se borra lo que estaba seleccionado
         ACTUALWORD = "";
+        cleanListWord();
         textWord.setText(ACTUALWORD);
     }
     
     private void updateWord(Character c){
         ACTUALWORD += c + "";
         textWord.setText(ACTUALWORD);
+    }
+    
+    
+    private void cleanListWord(){
+        DoblyCircularList<LetraMatrix> newListWord = new DoblyCircularList<>();
+        LISTWORD = newListWord;
+    }
+    
+    @FXML
+    void validarPalabra(ActionEvent event) {
+        if(VerificacionesPalabras.verificarSeleccionPalabra(LISTWORD)){
+            /*La palabra se encuentra en ACTUALWORD aqui es donde se valida y se agregan los puntos si no se encuentran se restan*/
+            System.out.println("La seleccion es valida");
+        } else {
+            mostrarAlerta(Alert.AlertType.WARNING, "Realice una selección valida");
+        }
+        
     }
     
 }
