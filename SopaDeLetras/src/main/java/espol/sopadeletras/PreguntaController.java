@@ -42,7 +42,7 @@ public class PreguntaController {
         }else{
             App.switchScenes(event, "PartidaNormal", 782, 654);
             
-            nombre = cuadroT3.getText();
+            /*nombre = cuadroT3.getText();
             medida = cb1.getValue();
             String filas = medida.substring(0,0);
             String column = medida.substring(2,2); 
@@ -51,7 +51,7 @@ public class PreguntaController {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText("Éxito");
             alert.setContentText("Jugador: "+cuadroT3.getText()+" creado");
-            alert.showAndWait();
+            alert.showAndWait();*/
             
         }
         

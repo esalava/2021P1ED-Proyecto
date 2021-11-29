@@ -1,12 +1,13 @@
 package TDA;
 
+import Interfaces.TDA.CircularShifting;
 import java.util.Comparator;
 import java.util.Iterator;
 
 /*
     Lista circular doblemente enlazada
  */
-public class DoblyCircularList<E> implements List<E>, Iterable<E> {
+public class DoblyCircularList<E> implements List<E>, Iterable<E>, CircularShifting {
 
     private CircularDoblyNodeList<E> last;
     private int size;
@@ -102,7 +103,7 @@ public class DoblyCircularList<E> implements List<E>, Iterable<E> {
         return null;
     }
 
-    //Complejidad de O(n)
+    @Override
     public void doRightBitshifting() {
         E temporaryFirstValue = last.getContent();
         CircularDoblyNodeList<E> travellerNode;
@@ -114,7 +115,7 @@ public class DoblyCircularList<E> implements List<E>, Iterable<E> {
         last.getNext().setContent(temporaryFirstValue);
     }
 
-    //Complejidad de O(n)
+    @Override    
     public void doLeftBitshifting() {
         E temporaryFirstValue = last.getNext().getContent();
         CircularDoblyNodeList<E> travellerNode;
