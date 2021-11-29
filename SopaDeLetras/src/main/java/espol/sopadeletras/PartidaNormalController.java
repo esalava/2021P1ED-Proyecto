@@ -7,6 +7,7 @@ import Matrix.VerificacionesPalabras;
 import TDA.DoblyCircularList;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.Stack;
@@ -45,11 +46,20 @@ public class PartidaNormalController {
     
     private DoblyCircularList<LetraMatrix> LISTWORD = new DoblyCircularList<>();
     /* **********************************/
+    
+    /****************PUNTAJE*********************/
     @FXML
     private Text textPoints;
-
+    
+    private int PLAYERPOINTS = 0;
+    /*********************************************/
+    /****************PALABRAS ENCONTRADAS********************/
+    
+    private DoblyCircularList<String> WORDSFOUND = new DoblyCircularList<>();
+    
+    /***********************************************************/
     @FXML
-    private Text textTime;
+    private Text textTime = new Text("-");
     
     /************BOTONES PARA MOVER FILAS Y COLUMNAS **********/
     @FXML
@@ -79,6 +89,8 @@ public class PartidaNormalController {
 
     @FXML
     private void initialize() {
+        
+        MATRIX.agregarPalabras();
         MATRIX.showMatrix();
         System.out.println("*********************************");
         System.out.println("Inicializacion de Partida Normal");
@@ -417,13 +429,43 @@ public class PartidaNormalController {
     
     @FXML
     void validarPalabra(ActionEvent event) {
+       
         if(VerificacionesPalabras.verificarSeleccionPalabra(LISTWORD)){
             /*La palabra se encuentra en ACTUALWORD aqui es donde se valida y se agregan los puntos si no se encuentran se restan*/
             System.out.println("La seleccion es valida");
+            System.out.println(ACTUALWORD);
+            Comparator<String> cmp = (String o1, String o2) -> o1.compareTo(o2);
+            
+            MATRIX.getListWords().show();
+            if(MATRIX.getListWords().containsElement(ACTUALWORD, cmp) && !WORDSFOUND.containsElement(ACTUALWORD, cmp)){
+                WORDSFOUND.addLast(ACTUALWORD);
+                addPuntaje(ACTUALWORD.length());
+                mostrarAlerta(Alert.AlertType.INFORMATION, "FELICIDADES HA ENCONTRADO UNA PALABRA! \n+"+ACTUALWORD.length()+" PUNTOS");
+                cleanSopa(event);
+            } else if (WORDSFOUND.containsElement(ACTUALWORD, cmp)) {
+                decPuntaje(1);
+                mostrarAlerta(Alert.AlertType.WARNING, "La palabra ya se ha encontrado! \nSE HA DISMINUIDO -1 PUNTO(S)");
+            } else {
+                decPuntaje(ACTUALWORD.length());
+                mostrarAlerta(Alert.AlertType.WARNING, "LA PALABRA NO EXISTE EN LA LISTA PARA ENCONTRAR! \n-"+ACTUALWORD.length()+" PUNTOS");
+                cleanSopa(event);
+            }
         } else {
-            mostrarAlerta(Alert.AlertType.WARNING, "Realice una selección valida");
+            decPuntaje(1);
+            mostrarAlerta(Alert.AlertType.WARNING, "Realice una selección valida! \nSE HA DISMINUIDO -1 PUNTO(S)");
+            cleanSopa(event);
         }
         
+    }
+    
+    private void addPuntaje(int cantidad){
+        PLAYERPOINTS+=cantidad;
+        textPoints.setText(String.valueOf(PLAYERPOINTS));
+    }
+    
+    private void decPuntaje(int cantidad){
+        PLAYERPOINTS-=cantidad;
+        textPoints.setText(String.valueOf(PLAYERPOINTS));
     }
     
 }
