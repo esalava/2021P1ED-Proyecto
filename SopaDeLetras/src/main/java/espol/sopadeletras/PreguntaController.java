@@ -55,7 +55,7 @@ public class PreguntaController {
     private void switchToJugar(ActionEvent event) throws IOException {
         //App.setRoot("secondary");
     	
-        App.switchScenes(event, "PartidaNormal", 882, 654);
+        App.switchScenes(event, "PartidaNormal", 782, 654);
         
     }
     
