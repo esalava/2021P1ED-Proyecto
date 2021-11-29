@@ -92,7 +92,6 @@ public class PartidaNormalController {
         
         while(rowIterator.hasNext()){
             DoblyCircularList<Character> columnElements = rowIterator.next();
-            //columnElements.show();
             Iterator<Character> colElementsIterator = columnElements.iterator();
             int x = 0;
             while(colElementsIterator.hasNext()){
@@ -116,6 +115,7 @@ public class PartidaNormalController {
                     
                     System.out.println(indexY + "," +indexX);
                     updateWord(c);
+                    
                 });
              
                 
@@ -129,7 +129,6 @@ public class PartidaNormalController {
         loadAllButtons();
     }
     
-    //carga los botones del lado derecho para mover las filas hacia la derecha
     @FXML
     private void moveRowRight(int index){
         
@@ -232,9 +231,7 @@ public class PartidaNormalController {
             } catch (Exception e) {
                 System.out.println("Image Not Found");
             }
-            
-            
-            
+              
             newBox.prefHeight(50);
             newBox.prefWidth(50);
             newBox.setOnMouseClicked(e -> {
@@ -260,8 +257,7 @@ public class PartidaNormalController {
             } catch (Exception e) {
                 System.out.println("Image Not Found");
             }
-            
-           
+
             newBox.prefHeight(50);
             newBox.prefWidth(50);
             newBox.setOnMouseClicked(e -> {
@@ -286,8 +282,7 @@ public class PartidaNormalController {
             } catch (Exception e) {
                 System.out.println("Image Not Found");
             }
-            
-           
+
             newBox.setOnMouseClicked(e -> {
                 moveColumnUp(idx);
             }); 
@@ -310,8 +305,7 @@ public class PartidaNormalController {
             } catch (Exception e) {
                 System.out.println("Image Not Found");
             }
-            
-            
+
             newBox.setOnMouseClicked(e -> {
                 moveColumnDown(idx);
             }); 
@@ -341,7 +335,7 @@ public class PartidaNormalController {
         } else {
             mostrarAlerta(Alert.AlertType.WARNING, "HA ALCANZADO LAS OPORTUNIDADES MAXIMAS DE AGREGAR O ELIMINAR FILAS/COLUMNAS");
             System.out.println("YA NO PUEDE AGREGAR/ELIMINAR FILAS/COLUMNAS");
-          //warning   
+   
         }
     }
 
@@ -356,7 +350,7 @@ public class PartidaNormalController {
         } else {
             mostrarAlerta(Alert.AlertType.ERROR, "HA ALCANZADO LAS OPORTUNIDADES MAXIMAS DE AGREGAR O ELIMINAR FILAS/COLUMNAS");
             System.out.println("YA NO PUEDE AGREGAR/ELIMINAR FILAS/COLUMNAS");
-          //warning   
+   
         }
     }
 
@@ -371,7 +365,7 @@ public class PartidaNormalController {
         } else {
             mostrarAlerta(Alert.AlertType.ERROR, "HA ALCANZADO LAS OPORTUNIDADES MAXIMAS DE AGREGAR O ELIMINAR FILAS/COLUMNAS");
             System.out.println("YA NO PUEDE AGREGAR/ELIMINAR FILAS/COLUMNAS");
-          //warning   
+  
         }
         
     }  
@@ -387,7 +381,7 @@ public class PartidaNormalController {
         } else {
             mostrarAlerta(Alert.AlertType.ERROR, "HA ALCANZADO LAS OPORTUNIDADES MAXIMAS DE AGREGAR O ELIMINAR FILAS/COLUMNAS");
             System.out.println("YA NO PUEDE AGREGAR/ELIMINAR FILAS/COLUMNAS");
-          //warning   
+
         }
     }
     

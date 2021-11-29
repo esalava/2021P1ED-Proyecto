@@ -19,8 +19,6 @@
                 <FXCollections fx:factory="observableArrayList">
                   <String fx:value="7x7" />
                   <String fx:value="10x10" />
-                  <String fx:value="13x13" />
-                  <String fx:value="15x15" />
                 </FXCollections>
               </items>
             </ComboBox>

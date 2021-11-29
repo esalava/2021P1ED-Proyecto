@@ -18,7 +18,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
-public class PartidaController {
+public class PartidaController extends PreguntaController{
     Random rd;
 
     @FXML
@@ -51,10 +51,10 @@ public class PartidaController {
     private final String LETRAS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     
-    int rows = 10;
-    int columns = 10;
+    int rows = PreguntaController.getFilaValue();
+    int columns = PreguntaController.getColumValue();
     Cell cells[][] = new Cell[rows][columns];
-    
+    String nombre = PreguntaController.getNameValue();
     @FXML
     private void switchToSecondary() throws IOException {
         App.setRoot("MenuPrincipal");
@@ -94,12 +94,16 @@ public class PartidaController {
         }
         
         
-       
         loadAllButtons();
+        setTextJugador(nombre);
         
 
     }
     
+    
+    private void setTextJugador(String nombre) {
+    	textPlayer.setText(nombre);
+    }
     //carga los botones del lado derecho para mover las filas hacia la derecha
     @FXML
     private void moveRowRight(int index){

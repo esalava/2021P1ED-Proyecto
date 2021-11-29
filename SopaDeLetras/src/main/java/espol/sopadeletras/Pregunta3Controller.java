@@ -10,6 +10,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
 public class Pregunta3Controller {
+	
+	public static String nombre;
+    public static String medida;
+    public static int fila;
+    public static int colum;
+    public static String categoria;
+    
 
     @FXML
     private static ComboBox<String> cb1 = new ComboBox<String>();
@@ -34,20 +41,7 @@ public class Pregunta3Controller {
     }
     
     
-    public static String getMedidaValue3() {
-    	String seleccion = cb1.getValue();
-		return seleccion;
-    }
-    
-    public static String getCategoValue() {
-    	String seleccion = cb2.getValue();
-		return seleccion;
-    }
-
-    public static String getNameValue3() {
-    	String seleccion = cuadroT3.getText();
-    	return seleccion;
-    }
+ 
     
     private void mostrarAlerta(Alert.AlertType tipo, String mensaje) {
         Alert alert = new Alert(tipo);
@@ -58,18 +52,49 @@ public class Pregunta3Controller {
         alert.showAndWait();
     }
     
+    public static int getFilaValue() {
+    	return fila;
+    }
+    
+    public static int getColumValue() {
+    	return colum;
+    }
+
+    public static String getNameValue() {
+    	return nombre;
+    }
+    
+    public static String getCateValue() {
+    	return categoria;
+    }
+    
+    
    @FXML
     private void switchToJugar(ActionEvent event) throws IOException {
-        //App.setRoot("secondary");
-    	/**String sel1 = getComboValue();
-    	String sel2 = getNameValue();
-    	if((sel1 == null) || sel2 == null) {
-    		mostrarAlerta(Alert.AlertType.INFORMATION,"Completa todos los campos");
-    	}**/
-    	
-        App.switchScenes(event, "PartidaCATE", 882, 654);
-        
-    }
+	   if ((cuadroT3.getText() == null) || (cuadroT3.getText().trim().isEmpty())) {
+           Alert alert = new Alert(Alert.AlertType.ERROR);
+           alert.setHeaderText("Error");
+           alert.setContentText("Completa todos los campos");
+           alert.showAndWait();
+           
+           
+       }else{
+       	App.switchScenes(event, "Partida", 1400, 800);
+           nombre = cuadroT3.getText();
+           medida = cb1.getValue();
+           String filas = medida.substring(0,0);
+           String column = medida.substring(2,2); 
+           fila = Integer.parseInt(filas);
+           colum = Integer.parseInt(column);
+           categoria = cb2.getValue();
+           Alert alert = new Alert(Alert.AlertType.INFORMATION);
+           alert.setHeaderText("Éxito");
+           alert.setContentText("Jugador: "+cuadroT3.getText()+" creado");
+           alert.showAndWait();
+           
+       }
+       
+   }
     
     
 
