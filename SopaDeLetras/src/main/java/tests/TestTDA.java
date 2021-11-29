@@ -1,9 +1,10 @@
-package TDA;
+package tests;
 
 import Matrix.Matrix;
+import TDA.DoblyCircularList;
 import java.util.Iterator;
 
-public class Main {
+public class TestTDA {
     public static void main(String[] args) {
         DoblyCircularList<Character> list = new DoblyCircularList<>();
         list.addLast('0');
