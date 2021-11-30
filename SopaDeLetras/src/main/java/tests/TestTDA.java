@@ -25,10 +25,5 @@ public class TestTDA {
         System.out.println(list.deleteAt(list.size()-1));
         list.show();
         System.out.println(list.size());
-        //System.out.println(list.size());
-        /*Iterator<Character> iterator = list.iterator();
-        while(iterator.hasNext()){
-            System.out.print(iterator.next()+" ");
-        }*/
     }
 }

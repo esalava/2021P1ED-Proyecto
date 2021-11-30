@@ -42,7 +42,7 @@ public class PartidaNormalController {
     @FXML
     private Text textWord;
     
-    private String ACTUALWORD = "";
+    private String ACTUALWORD = ""; //Se aloja la palabra que se esta seleccionando
     
     private DoblyCircularList<LetraMatrix> LISTWORD = new DoblyCircularList<>();
     /* **********************************/
@@ -51,11 +51,12 @@ public class PartidaNormalController {
     @FXML
     private Text textPoints;
     
-    private int PLAYERPOINTS = 0;
+    private int PLAYERPOINTS = 0; 
     /*********************************************/
+    
     /****************PALABRAS ENCONTRADAS********************/
     
-    private DoblyCircularList<String> WORDSFOUND = new DoblyCircularList<>();
+    private DoblyCircularList<String> WORDSFOUND = new DoblyCircularList<>(); //lista de palabras encontradas por el jugador
     
     /***********************************************************/
     @FXML
@@ -75,11 +76,10 @@ public class PartidaNormalController {
     
     private final String LETRAS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     
-    private int cantidadAddDelete = 0;
+    private int cantidadAddDelete = 0; //Oportunidades para añadir una columna o una fila
 
     int rows = 10;
     int columns = 10;
-    Cell cells[][] = new Cell[rows][columns];
     private Matrix MATRIX = new Matrix(rows, columns);
     
     @FXML
@@ -218,7 +218,6 @@ public class PartidaNormalController {
         
         System.out.println("Actualizacion correctamente");
         
-        //loadAllButtons();
     }
     
     private void loadAllButtons(){
@@ -438,6 +437,7 @@ public class PartidaNormalController {
             
             MATRIX.getListWords().show();
             if(MATRIX.getListWords().containsElement(ACTUALWORD, cmp) && !WORDSFOUND.containsElement(ACTUALWORD, cmp)){
+                //La palabra debe estar en la listas de palabras a encontrar (MATRIX.getListWords()) pero no debió haber sido encontrada anteriormente
                 WORDSFOUND.addLast(ACTUALWORD);
                 addPuntaje(ACTUALWORD.length());
                 mostrarAlerta(Alert.AlertType.INFORMATION, "FELICIDADES HA ENCONTRADO UNA PALABRA! \n+"+ACTUALWORD.length()+" PUNTOS");
