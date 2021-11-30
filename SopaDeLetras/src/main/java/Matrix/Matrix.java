@@ -150,7 +150,12 @@ public class Matrix implements MatrixMoves, MatrixRandomInsert, MatrixDelete {
                                 boolean conf = actualRow.setAt(letra, indice);
                             }
                             conteo++;
-                            palabrasSopa.addLast(palabra);
+                            if (invertirONo){
+                                String notinverted = invertirPalabra(palabra); //la regresa a su orden original
+                                palabrasSopa.addLast(notinverted.toUpperCase());
+                            } else {
+                                palabrasSopa.addLast(palabra.toUpperCase());
+                            }    
                         }
                         break;
 
@@ -167,7 +172,12 @@ public class Matrix implements MatrixMoves, MatrixRandomInsert, MatrixDelete {
                                 boolean conf = actualrow.setAt(letra, y);
                             }
                             conteo++;
-                            palabrasSopa.addLast(palabra);
+                            if (invertirONo){
+                                String notinverted = invertirPalabra(palabra); //la regresa a su orden original
+                                palabrasSopa.addLast(notinverted.toUpperCase());
+                            } else {
+                                palabrasSopa.addLast(palabra.toUpperCase());
+                            }
                         }
 
                         break;
@@ -248,7 +258,12 @@ public class Matrix implements MatrixMoves, MatrixRandomInsert, MatrixDelete {
 
                         if (conf) {
                             conteo++;
-                            //palabrasSopa.addLast(copyPalabra);
+                            if (invertirONo){
+                                String notinverted = invertirPalabra(palabra); //la regresa a su orden original
+                                palabrasSopa.addLast(notinverted.toUpperCase());
+                            } else {
+                                palabrasSopa.addLast(palabra.toUpperCase());
+                            }
                         }
                         break;
                 } //switch
