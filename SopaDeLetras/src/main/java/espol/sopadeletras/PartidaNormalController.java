@@ -6,13 +6,16 @@ import Matrix.Matrix;
 import Matrix.VerificacionesPalabras;
 import Matrix.Word;
 import TDA.DoblyCircularList;
+
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Random;
-import java.util.Stack;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -25,7 +28,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.GridPane;
@@ -94,6 +96,7 @@ public class PartidaNormalController {
     
     private int cantidadAddDelete = 0; //Oportunidades para añadir una columna o una fila
 
+    String timeStamp = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
     int rows = PreguntaController.getFilaValue();
     int columns = PreguntaController.getFilaValue();
     private Matrix MATRIX = new Matrix(rows, columns);
@@ -106,6 +109,7 @@ public class PartidaNormalController {
     @FXML
     private void switchToMenu(ActionEvent event) throws IOException{
     	mostrarAlerta(Alert.AlertType.WARNING, "Suerte para la próxima! Tú puedes! :D");
+    	realizarLog(textPlayer.getText(),textPoints.getText(),"NA",timeStamp);
     	App.switchScenes(event,"MenuPrincipal",593, 395);
     }
 
@@ -274,6 +278,7 @@ public class PartidaNormalController {
         if (WORDSFOUND.size() == listaPalabras.size()) {
         	mostrarAlerta(Alert.AlertType.INFORMATION,"Haz encontrado todas las palabras! Felicidades :D");
         	volverMenu();
+        	realizarLog(textPlayer.getText(),textPoints.getText(),"NA",timeStamp);
         }
         System.out.println("Actualizacion correctamente");
         
@@ -508,7 +513,8 @@ public class PartidaNormalController {
             	decPuntaje(1);
                 mostrarAlerta(Alert.AlertType.WARNING, "La palabra ya se ha encontrado! \nSE HA DISMINUIDO -1 PUNTO(S)");}
             	else {mostrarAlerta(Alert.AlertType.WARNING, "Se te han acabado los intentos! Adiós :(");
-            		  volverMenu();}
+            		  volverMenu();
+            		  realizarLog(textPlayer.getText(),textPoints.getText(),"NA",timeStamp);}
             } else {
             	addErrores(1);
             	if (errores !=4) {
@@ -516,7 +522,8 @@ public class PartidaNormalController {
                 mostrarAlerta(Alert.AlertType.WARNING, "LA PALABRA NO EXISTE EN LA LISTA PARA ENCONTRAR! \n-"+ACTUALWORD.length()+" PUNTOS");
                 cleanSopa(event);}
             	else {mostrarAlerta(Alert.AlertType.WARNING, "Se te han acabado los intentos! Adiós :(");
-            		  volverMenu();}
+            		  volverMenu();
+            		  realizarLog(textPlayer.getText(),textPoints.getText(),"NA",timeStamp);}
             }
         } else {
         	addErrores(1);
@@ -525,7 +532,8 @@ public class PartidaNormalController {
             mostrarAlerta(Alert.AlertType.WARNING, "Realice una selección valida! \nSE HA DISMINUIDO -1 PUNTO(S)");
             cleanSopa(event);}
         	else{mostrarAlerta(Alert.AlertType.WARNING, "Se te han acabado los intentos! Adiós :(");
-        		 volverMenu();}
+        		 volverMenu();
+        		 realizarLog(textPlayer.getText(),textPoints.getText(),"NA",timeStamp);}
         }
         
     }
@@ -566,5 +574,30 @@ public class PartidaNormalController {
     	return textPoints.getText();
     } 
     
+    private void realizarLog(String nombre,String puntaje,String tiempo,String fecha) {
+    	FileWriter fichero = null;
+        BufferedWriter bw = null;
+        try
+        {
+            fichero = new FileWriter("src/main/resources/espol/logs.txt",true);
+            bw = new BufferedWriter(fichero);
+            bw.write("PARTIDA NORMAL: "+nombre+"  -  "+puntaje+"  -  "+tiempo+"  -  "+fecha+"\n");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+           try {
+           // Nuevamente aprovechamos el finally para 
+           // asegurarnos que se cierra el fichero.
+           if (null != fichero)
+              bw.close();
+           } catch (Exception e2) {
+              e2.printStackTrace();
+           }
+    	
+    }
+    
+    
+}
     
 }
