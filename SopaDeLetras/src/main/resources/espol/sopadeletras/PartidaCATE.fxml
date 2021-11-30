@@ -21,10 +21,10 @@
   <center>
     <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FFF0CE; -fx-border-color: #000000;" BorderPane.alignment="CENTER">
       <bottom>
-        <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+        <HBox fx:id="HBDownButtons" alignment="TOP_CENTER" prefHeight="50.0" BorderPane.alignment="CENTER" />
       </bottom>
       <center>
-        <GridPane id="sopa" fx:id="sopa2" BorderPane.alignment="CENTER">
+        <GridPane fx:id="sopa" BorderPane.alignment="CENTER">
           <columnConstraints>
             <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" />
             <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" />
@@ -37,17 +37,13 @@
         </GridPane>
       </center>
       <left>
-        <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+        <VBox fx:id="VBLeftButtons" alignment="CENTER_RIGHT" prefWidth="50.0" BorderPane.alignment="CENTER" />
       </left>
       <right>
-        <VBox id="VBRightButtons" fx:id="VBRightButtons2" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-          <children>
-            <Button mnemonicParsing="false" text="move" />
-          </children>
-        </VBox>
+        <VBox fx:id="VBRightButtons" alignment="CENTER_LEFT" prefWidth="50.0" BorderPane.alignment="CENTER" />
       </right>
       <top>
-        <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+        <HBox fx:id="HBUpButtons" alignment="BASELINE_CENTER" prefHeight="50.0" BorderPane.alignment="CENTER" />
       </top>
     </BorderPane>
   </center>
@@ -57,10 +53,49 @@
   <right>
     <VBox alignment="BOTTOM_RIGHT" prefHeight="320.0" prefWidth="154.0" style="-fx-background-color: #88DBC2;&#10;-fx-border-color: #000000" BorderPane.alignment="CENTER">
       <children>
-        <VBox prefHeight="219.0" prefWidth="152.0" />
+        <VBox fx:id="VBoxPalabras" alignment="TOP_CENTER" prefHeight="235.0" prefWidth="152.0">
+          <children>
+            <HBox alignment="CENTER" prefHeight="32.0" prefWidth="152.0">
+              <children>
+                <Text fx:id="textLLeno" strokeType="OUTSIDE" strokeWidth="0.0" text="Palabras">
+                  <font>
+                    <Font name="System Bold Italic" size="20.0" />
+                  </font>
+                </Text>
+              </children>
+            </HBox>
+          </children>
+        </VBox>
+        <HBox alignment="CENTER" prefHeight="84.0" prefWidth="152.0">
+          <children>
+            <VBox prefHeight="84.0" prefWidth="147.0">
+              <children>
+                <HBox prefHeight="100.0" prefWidth="200.0">
+                  <children>
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Columnas:" />
+                    <Button mnemonicParsing="false" onAction="#deleteColumn" text="Delete" />
+                    <Button mnemonicParsing="false" onAction="#addColumn" text="Add" />
+                  </children>
+                </HBox>
+                <HBox prefHeight="100.0" prefWidth="200.0">
+                  <children>
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Filas:" wrappingWidth="53.869140625" />
+                    <Button mnemonicParsing="false" onAction="#deleteRow" text="Delete" />
+                    <Button mnemonicParsing="false" onAction="#addRow" text="Add" />
+                  </children>
+                </HBox>
+              </children>
+            </VBox>
+          </children>
+        </HBox>
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #F6E6A7;&#10;-fx-border-color: #000000">
           <children>
-            <Button mnemonicParsing="false" prefHeight="28.0" prefWidth="77.0" text="VALIDAR" />
+            <Button mnemonicParsing="false" onAction="#cleanSopa" prefHeight="25.0" prefWidth="66.0" style="-fx-background-color: #E6C687;" text="LIMPIAR" />
+            <Button mnemonicParsing="false" onAction="#validarPalabra" prefHeight="18.0" prefWidth="77.0" style="-fx-background-color: #28DE1C;" text="VALIDAR">
+              <font>
+                <Font name="System Bold" size="12.0" fx:id="x1" />
+              </font>
+            </Button>
           </children>
         </HBox>
       </children>
@@ -83,21 +118,23 @@
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
               <children>
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Jugador:" />
-                <Text id="textPlayer" fx:id="textPlayer2" strokeType="OUTSIDE" strokeWidth="0.0" text="JUGADOR123">
+                <Text fx:id="textPlayer" font="$x1" strokeType="OUTSIDE" strokeWidth="0.0" />
+              </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="58.0" prefWidth="318.0">
+              <children>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Palabra:" />
+                <Text fx:id="textWord" strokeType="OUTSIDE" strokeWidth="0.0">
                   <font>
-                    <Font name="System Bold" size="12.0" />
+                    <Font size="25.0" fx:id="x2" />
                   </font>
                 </Text>
               </children>
             </VBox>
-            <VBox alignment="CENTER" prefHeight="50.0" prefWidth="462.0">
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
               <children>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Palabra:" />
-                <Text id="textWord" fx:id="textWord2" strokeType="OUTSIDE" strokeWidth="0.0" text="ELEFANTE">
-                  <font>
-                    <Font size="25.0" fx:id="x1" />
-                  </font>
-                </Text>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Errores:" textAlignment="CENTER" />
+                <Text id="textWord" fx:id="textError" font="$x2" strokeType="OUTSIDE" strokeWidth="0.0" />
               </children>
             </VBox>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
@@ -107,19 +144,20 @@
                     <Font size="13.0" />
                   </font>
                 </Text>
-                <Text id="textPoints" fx:id="textPoints2" font="$x1" strokeType="OUTSIDE" strokeWidth="0.0" text="30" />
+                <Text fx:id="textPoints" font="$x2" strokeType="OUTSIDE" strokeWidth="0.0" />
               </children>
             </VBox>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
               <children>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Categoría">
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Time:">
                   <font>
                     <Font size="18.0" />
                   </font>
                 </Text>
-                <Text id="textCate" fx:id="textCate" font="$x1" strokeType="OUTSIDE" strokeWidth="0.0" text="a0" />
+                <Text fx:id="textTime" font="$x2" strokeType="OUTSIDE" strokeWidth="0.0" text="-" />
               </children>
             </VBox>
+            <Button id="giveUp" font="$x1" mnemonicParsing="false" onAction="#switchToMenu" prefHeight="52.0" prefWidth="73.0" style="-fx-background-color: #FF0000; -fx-border-color: #000000;" text="GIVE UP" />
           </children>
         </HBox>
       </children>

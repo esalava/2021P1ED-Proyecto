@@ -1,215 +1,213 @@
 package espol.sopadeletras;
 
 import Matrix.Cell;
+import Matrix.LetraMatrix;
+import Matrix.Matrix;
+import Matrix.VerificacionesPalabras;
+import Matrix.Word;
 import TDA.DoblyCircularList;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.Random;
-
+import java.util.Stack;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class PartidaCATEController {
+    Random rd;
 
     @FXML
-    private GridPane sopa2;
+    private GridPane sopa;
 
     @FXML
-    private VBox VBRightButtons2;
+    private Text textPlayer = new Text(Pregunta3Controller.getNameValue());
 
+    /* *********** PALABRA **************/
     @FXML
-    private Text textPlayer2;
-
-    @FXML
-    private Text textWord2;
-
-    @FXML
-    private Font x1;
-
-    @FXML
-    private Text textPoints2;
-
-    @FXML
-    private Text textCate;
+    private Text textWord;
     
+    private String ACTUALWORD = ""; //Se aloja la palabra que se esta seleccionando
+    
+    private DoblyCircularList<LetraMatrix> LISTWORD = new DoblyCircularList<>();
+    /* **********************************/
+    
+    /****************PUNTAJE*********************/
+    @FXML
+    private Text textPoints;
+    
+    private int PLAYERPOINTS = 0;
+    
+    @FXML
+    private Text textError;
+    
+    private int errores = 0;
+    /*********************************************/
+    
+    /****************PALABRAS ENCONTRADAS********************/
+    
+    private String categoria = Pregunta3Controller.getCateValue();
+    private DoblyCircularList<String> WORDSFOUND = new DoblyCircularList<>(); //lista de palabras encontradas por el jugador
+     @FXML
+     private VBox VBoxPalabras;
+     
+     @FXML
+     private Text textLLeno;
+    
+    /***********************************************************/
+    @FXML
+    private Text textTime = new Text("-");
+    
+    /************BOTONES PARA MOVER FILAS Y COLUMNAS **********/
     @FXML
     private VBox VBRightButtons;
     @FXML
     private VBox VBLeftButtons;
-    
     @FXML
     private HBox HBUpButtons;
-
     @FXML
     private HBox HBDownButtons;
-
     
-  
-    Random rd;
+    /***********************************************************/
+    
+    private final String LETRAS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    
+    private int cantidadAddDelete = 0; //Oportunidades para añadir una columna o una fila
+
     int rows = Pregunta3Controller.getFilaValue();
-    int columns = Pregunta3Controller.getColumValue();
-    String categoria = Pregunta3Controller.getCateValue();
-    String nombre = Pregunta3Controller.getNameValue();
-    Cell cells[][] = new Cell[rows][columns];
+    int columns = Pregunta3Controller.getFilaValue();
+    private Matrix MATRIX = new Matrix(rows, columns);
     
     @FXML
-    private void switchTo() throws IOException {
+    private void switchToSecondary() throws IOException {
         App.setRoot("MenuPrincipal");
+    }
+    
+    @FXML
+    private void switchToMenu(ActionEvent event) throws IOException{
+    	mostrarAlerta(Alert.AlertType.WARNING, "Suerte para la próxima! Tú puedes! :D");
+    	App.switchScenes(event,"MenuPrincipal",593, 395);
     }
 
     @FXML
     private void initialize() {
+    	textError.setText(errores+"");
+        textPlayer.setText(Pregunta3Controller.getNameValue());
+        MATRIX.agregarPalabras(categoria+".txt");
+        MATRIX.showMatrix();
+        System.out.println("*********************************");
+        System.out.println("Inicializacion de Partida Normal");
+        rd = new Random();
+        //Palabras para poder llenar el vbox Verde.
         
-    	
-rd = new Random();
         
-        sopa2.setGridLinesVisible(true);
-        for (int y = 0; y < rows; y++) {
-            for (int x = 0; x < columns; x++) {
-                //System.out.println(y+","+x);
-                Cell cell = new Cell(y, x, cells); //A 
+        sopa.setGridLinesVisible(true);
+        
+        DoblyCircularList<DoblyCircularList<Character>> matrixList = MATRIX.getMatrix();
+        Iterator<DoblyCircularList<Character>> rowIterator = matrixList.iterator();
+        int y = 0;
+        
+        while(rowIterator.hasNext()){
+            DoblyCircularList<Character> columnElements = rowIterator.next();
+            Iterator<Character> colElementsIterator = columnElements.iterator();
+            int x = 0;
+            while(colElementsIterator.hasNext()){
+                Character c = colElementsIterator.next();
+                
                 VBox vbox = new VBox();
-                Text text = new Text(cell.getLetter());
+                Text text = new Text(c + "");
                 
                 vbox.getChildren().add(text);
                 vbox.setPrefSize(50, 50);
                 vbox.setAlignment(Pos.CENTER);
+                
+                final int indexX = x;
+                final int indexY = y;
+                
                 vbox.setOnMouseClicked(e -> {
+                    
                     vbox.setBackground(new Background(new BackgroundFill(Color.DARKORANGE, null, null)));
+                    LetraMatrix letraMatrix = new LetraMatrix(indexY, indexX, c);
+                    LISTWORD.addLast(letraMatrix);
+                    
+                    System.out.println(indexY + "," +indexX);
+                    updateWord(c);
+                    
                 });
+             
                 
-                sopa2.add(vbox, y,x);
-                cells[y][x] = cell;
-            }
+                sopa.add(vbox, x,y);  //column = x, row = y
                 
-        }
-        
-    
-
-        for (int m = 0; m < rows; m++) {
-            for (int n = 0; n < columns; n++) {
-                cells[m][n].setNeighbours();
+                x++;
             }
-        }
+            y++;
+        }      
         
-        
-        //sopa.gridLinesVisibleProperty();
         loadAllButtons();
-        setTextJugador(nombre);
-        setCateJugador(categoria);
-    }
-    
-    //carga los botones del lado derecho para mover las filas hacia la derecha
-    
-    private void setTextJugador(String nombre) {
-    	textPlayer2.setText(nombre);
-    }
-    private void setCateJugador(String categoria) {
-    	textCate.setText(categoria);
+        DoblyCircularList<String> listaPalabras = MATRIX.getListWords();
+        Iterator<String> iteratorPalabras = listaPalabras.iterator();
+        Comparator<String> cmp = (String o1, String o2) -> o1.compareTo(o2);
+        while (iteratorPalabras.hasNext()) {
+            String palabra = iteratorPalabras.next();
+            TextField ptext = new TextField(palabra);
+            ptext.setEditable(false);
+            ptext.setAlignment(Pos.CENTER);
+            ptext.setBackground(new Background(new BackgroundFill(Color.web("#88DBC2"), null, null)));
+            if (WORDSFOUND.containsElement(palabra,cmp)) {
+            	ptext.setBackground(new Background(new BackgroundFill(Color.web("118824"),null,null)));
+            }
+            VBoxPalabras.getChildren().add(ptext);
+        }
     }
     
     @FXML
     private void moveRowRight(int index){
-        //Cell[] currentRow = cells[0]; //ABC
         
-        
-        DoblyCircularList<String> circularList = new DoblyCircularList<>();
-        
-        //se recorre la fila
-        for (int i = 0 ; i<cells[index].length ; i++){
-            circularList.addLast(cells[i][index].getLetter());
-           
-        }
-        
-        circularList.doRightBitshifting();
-        
-        for (int i = 0 ; i<cells[index].length ; i++){
-            cells[i][index].setLetter(circularList.getIndex(i));
-        }
-        
-      
+        MATRIX.moveRowToRightAt(index);
         updateSopaPane();
-        
         System.out.println("Se ha movido +1 hacia la derecha");
     }
     
     private void moveRowLeft(int index){
-        //Cell[] currentRow = cells[0]; //ABC
-        
-        
-        DoblyCircularList<String> circularList = new DoblyCircularList<>();
-        
-        //se recorre la fila
-        for (int i = 0 ; i<cells[index].length ; i++){
-            circularList.addLast(cells[i][index].getLetter());
-           
-        }
-        
-        circularList.doLeftBitshifting();
-        
-        for (int i = 0 ; i<cells[index].length ; i++){
-            cells[i][index].setLetter(circularList.getIndex(i));
-        }
-        
-      
+       
+        MATRIX.moveRowToLeftAt(index);
         updateSopaPane();
         
         System.out.println("Se ha movido +1 hacia la izquierda");
     }
     
     private void moveColumnUp(int index){
-        //Cell[] currentRow = cells[0]; //ABC
-        
-        
-        DoblyCircularList<String> circularList = new DoblyCircularList<>();
-        
-        //se recorre la columna
-        for (int y = 0 ; y<cells.length ; y++){
-            circularList.addLast(cells[index][y].getLetter());
-        }
-        
-        circularList.doLeftBitshifting();
-        
-        for (int i = 0 ; i<cells.length ; i++){
-            cells[index][i].setLetter(circularList.getIndex(i));
-        }
-
+        MATRIX.moveColumnUpAt(index);
         System.out.println("Se ha movido +1 hacia la arriba");
         updateSopaPane();
     }
     
     private void moveColumnDown(int index){
-        //Cell[] currentRow = cells[0]; //ABC
-        
-        
-        DoblyCircularList<String> circularList = new DoblyCircularList<>();
-        
-        //se recorre la columna
-        for (int y = 0 ; y<cells.length ; y++){
-            circularList.addLast(cells[index][y].getLetter());
-        }
-        
-        circularList.doRightBitshifting();
-        
-        for (int i = 0 ; i<cells.length ; i++){
-            cells[index][i].setLetter(circularList.getIndex(i));
-        }
-
+        MATRIX.moveColumnDownAt(index);
         System.out.println("Se ha movido +1 hacia la abajo");
         updateSopaPane();
     }
-    
-    
     
     
     /** actualiza la sopa de letras: el metodo debe ser llamado en cualquier
@@ -217,25 +215,69 @@ rd = new Random();
      **/
     
     private void updateSopaPane(){
-        sopa2.getChildren().clear();
-        for (int y = 0; y < rows; y++) {
-            for (int x = 0; x < columns; x++) {
+        MATRIX.showMatrix();
+        sopa.getChildren().clear();
+        VBoxPalabras.getChildren().clear();
+        textError.setText(errores+"");
+        DoblyCircularList<DoblyCircularList<Character>> matrixList = MATRIX.getMatrix();
+        Iterator<DoblyCircularList<Character>> rowIterator = matrixList.iterator();
+        int y = 0;
+        sopa.setGridLinesVisible(true);
+        while(rowIterator.hasNext()){
+            DoblyCircularList<Character> columnElements = rowIterator.next();
+            Iterator<Character> colElementsIterator = columnElements.iterator();
+            int x = 0;
+            while(colElementsIterator.hasNext()){
+                Character c = colElementsIterator.next();
                 
-                Cell cell = cells[y][x];
                 VBox vbox = new VBox();
-                Text text = new Text(cell.getLetter());
+                Text text = new Text(c + "");
                 
                 vbox.getChildren().add(text);
                 vbox.setPrefSize(50, 50);
                 vbox.setAlignment(Pos.CENTER);
+                
+                final int indexX = x;
+                final int indexY = y;
+                
                 vbox.setOnMouseClicked(e -> {
+                    
                     vbox.setBackground(new Background(new BackgroundFill(Color.DARKORANGE, null, null)));
+                    LetraMatrix letraMatrix = new LetraMatrix(indexY, indexX, c);
+                    LISTWORD.addLast(letraMatrix);
+                    
+                    System.out.println(indexY + "," +indexX);
+                    updateWord(c);
                 });
-                sopa2.add(vbox, y,x);
-                //cells[y][x] = cell;
+                
+                sopa.add(vbox, x,y);
+                
+                x++;
             }
+            y++;
+        } 
+        
+        DoblyCircularList<String> listaPalabras = MATRIX.getListWords();
+        Iterator<String> iteratorPalabras = listaPalabras.iterator();
+        Comparator<String> cmp = (String o1, String o2) -> o1.compareTo(o2);
+        VBoxPalabras.getChildren().add(textLLeno);
+        while (iteratorPalabras.hasNext()) {
+            String palabra = iteratorPalabras.next();
+            TextField ptext = new TextField(palabra);
+            ptext.setEditable(false);
+            ptext.setAlignment(Pos.CENTER);
+            if (WORDSFOUND.containsElement(palabra,cmp)) {
+            	ptext.setBackground(new Background(new BackgroundFill(Color.web("118824"),null,null)));
+            }else {ptext.setBackground(new Background(new BackgroundFill(Color.web("#88DBC2"), null, null)));
+            }
+            VBoxPalabras.getChildren().add(ptext);
+        }
+        if (WORDSFOUND.size() == listaPalabras.size()) {
+        	mostrarAlerta(Alert.AlertType.INFORMATION,"Haz encontrado todas las palabras! Felicidades :D");
+        	volverMenu();
         }
         System.out.println("Actualizacion correctamente");
+        
     }
     
     private void loadAllButtons(){
@@ -247,11 +289,20 @@ rd = new Random();
     
     private void loadButtonsRight(){
         
-        for(int i = 0; i < cells[0].length ; i++){
+        for(int i = 0; i < MATRIX.getMatrix().size() ; i++){
             final int idx = i;
             HBox newBox = new HBox();
             
-            newBox.getChildren().add(new Text("MOVE"));
+            try(FileInputStream input = new FileInputStream("src/main/resources/espol/images/right_arrow.png")) {
+                Image image = new Image(input, 40, 40, false, false);
+                ImageView imV = new ImageView(image);
+                newBox.getChildren().add(imV);
+                newBox.setAlignment(Pos.CENTER);
+                
+            } catch (Exception e) {
+                System.out.println("Image Not Found");
+            }
+              
             newBox.prefHeight(50);
             newBox.prefWidth(50);
             newBox.setOnMouseClicked(e -> {
@@ -264,11 +315,20 @@ rd = new Random();
     
     private void loadButtonsLeft(){
         
-        for(int i = 0; i < cells[0].length ; i++){
+        for(int i = 0; i < MATRIX.getMatrix().size() ; i++){
             final int idx = i;
             HBox newBox = new HBox();
             
-            newBox.getChildren().add(new Text("MOVE"));
+            try(FileInputStream input = new FileInputStream("src/main/resources/espol/images/left_arrow.png")) {
+                Image image = new Image(input, 40, 40, false, false);
+                ImageView imV = new ImageView(image);
+                newBox.getChildren().add(imV);
+                newBox.setAlignment(Pos.CENTER);
+                
+            } catch (Exception e) {
+                System.out.println("Image Not Found");
+            }
+
             newBox.prefHeight(50);
             newBox.prefWidth(50);
             newBox.setOnMouseClicked(e -> {
@@ -280,11 +340,20 @@ rd = new Random();
     }
     
     private void loadButttonsUp(){
-        for(int i = 0; i < cells[0].length ; i++){
+        for(int i = 0; i < MATRIX.getMatrix().getIndex(0).size() ; i++){
             final int idx = i;
             HBox newBox = new HBox();
             
-            newBox.getChildren().add(new Text("MOVE"));
+            try(FileInputStream input = new FileInputStream("src/main/resources/espol/images/up_arrow.png")) {
+                Image image = new Image(input, 40, 40, false, false);
+                ImageView imV = new ImageView(image);
+                newBox.getChildren().add(imV);
+                newBox.setAlignment(Pos.CENTER);
+                
+            } catch (Exception e) {
+                System.out.println("Image Not Found");
+            }
+
             newBox.setOnMouseClicked(e -> {
                 moveColumnUp(idx);
             }); 
@@ -294,11 +363,20 @@ rd = new Random();
     }
     
     private void loadButttonsDown(){
-        for(int i = 0; i < cells[0].length ; i++){
+        for(int i = 0; i < MATRIX.getMatrix().getIndex(0).size() ; i++){
             final int idx = i;
             HBox newBox = new HBox();
-            
-            newBox.getChildren().add(new Text("MOVE"));
+           
+            try(FileInputStream input = new FileInputStream("src/main/resources/espol/images/down_arrow.png")) {
+                Image image = new Image(input, 40, 40, false, false);
+                ImageView imV = new ImageView(image);
+                newBox.getChildren().add(imV);
+                newBox.setAlignment(Pos.CENTER);
+                
+            } catch (Exception e) {
+                System.out.println("Image Not Found");
+            }
+
             newBox.setOnMouseClicked(e -> {
                 moveColumnDown(idx);
             }); 
@@ -306,11 +384,188 @@ rd = new Random();
             HBDownButtons.getChildren().add(newBox);
         }
     
+    }   
     
+    private void updateButtons(){
+        VBRightButtons.getChildren().clear();
+        VBLeftButtons.getChildren().clear();
+        HBUpButtons.getChildren().clear();
+        HBDownButtons.getChildren().clear();
+        
+        loadAllButtons();
+    }
+    
+    @FXML
+    void addColumn(ActionEvent event) {
+        if (cantidadAddDelete < 2){
+            MATRIX.insertRandomColumnAt(0);
+            updateSopaPane();
+            updateButtons();
+            cantidadAddDelete++;
+            mostrarAlerta(Alert.AlertType.INFORMATION, "Quedan " + Integer.toString(2-cantidadAddDelete) + " oportunidades disponibles");
+        } else {
+            mostrarAlerta(Alert.AlertType.WARNING, "HA ALCANZADO LAS OPORTUNIDADES MAXIMAS DE AGREGAR O ELIMINAR FILAS/COLUMNAS");
+            System.out.println("YA NO PUEDE AGREGAR/ELIMINAR FILAS/COLUMNAS");
+   
+        }
+    }
+
+    @FXML
+    void addRow(ActionEvent event) {  
+        if (cantidadAddDelete < 2){
+            MATRIX.insertRandomRowAt(0);
+            updateSopaPane();
+            updateButtons();
+            cantidadAddDelete++;
+            mostrarAlerta(Alert.AlertType.INFORMATION, "Quedan " + Integer.toString(2-cantidadAddDelete) + " oportunidades disponibles");
+        } else {
+            mostrarAlerta(Alert.AlertType.ERROR, "HA ALCANZADO LAS OPORTUNIDADES MAXIMAS DE AGREGAR O ELIMINAR FILAS/COLUMNAS");
+            System.out.println("YA NO PUEDE AGREGAR/ELIMINAR FILAS/COLUMNAS");
+   
+        }
+    }
+
+    @FXML
+    void deleteColumn(ActionEvent event) {
+        if (cantidadAddDelete < 2){
+            MATRIX.deleteColumnAt(0);
+            updateSopaPane();
+            updateButtons();
+            cantidadAddDelete++;
+            mostrarAlerta(Alert.AlertType.INFORMATION, "Quedan " + Integer.toString(2-cantidadAddDelete) + " oportunidades disponibles");
+        } else {
+            mostrarAlerta(Alert.AlertType.ERROR, "HA ALCANZADO LAS OPORTUNIDADES MAXIMAS DE AGREGAR O ELIMINAR FILAS/COLUMNAS");
+            System.out.println("YA NO PUEDE AGREGAR/ELIMINAR FILAS/COLUMNAS");
+  
+        }
+        
+    }  
+
+    @FXML
+    void deleteRow(ActionEvent event) {
+        if (cantidadAddDelete < 2){
+            MATRIX.deleteRowAt(0);
+            updateSopaPane();
+            updateButtons();
+            cantidadAddDelete++;
+            mostrarAlerta(Alert.AlertType.INFORMATION, "Quedan " + Integer.toString(2-cantidadAddDelete) + " oportunidades disponibles");
+        } else {
+            mostrarAlerta(Alert.AlertType.ERROR, "HA ALCANZADO LAS OPORTUNIDADES MAXIMAS DE AGREGAR O ELIMINAR FILAS/COLUMNAS");
+            System.out.println("YA NO PUEDE AGREGAR/ELIMINAR FILAS/COLUMNAS");
+
+        }
+    }
+    
+    private void mostrarAlerta(Alert.AlertType tipo, String mensaje) {
+        Alert alert = new Alert(tipo);
+
+        alert.setTitle("Resultado de operacion");
+        alert.setHeaderText("Notificacion");
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
+    
+    @FXML
+    void cleanSopa(ActionEvent event) {
+        updateSopaPane();
+        
+        //Se borra lo que estaba seleccionado
+        ACTUALWORD = "";
+        cleanListWord();
+        textWord.setText(ACTUALWORD);
+    }
+    
+    private void updateWord(Character c){
+        ACTUALWORD += c + "";
+        textWord.setText(ACTUALWORD);
     }
     
     
+    private void cleanListWord(){
+        DoblyCircularList<LetraMatrix> newListWord = new DoblyCircularList<>();
+        LISTWORD = newListWord;
+    }
+    
+    @FXML
+    void validarPalabra(ActionEvent event) {
+       
+        if(VerificacionesPalabras.verificarSeleccionPalabra(LISTWORD)){
+            /*La palabra se encuentra en ACTUALWORD aqui es donde se valida y se agregan los puntos si no se encuentran se restan*/
+            System.out.println("La seleccion es valida");
+            System.out.println(ACTUALWORD);
+            Comparator<String> cmp = (String o1, String o2) -> o1.compareTo(o2);
+            
+            MATRIX.getListWords().show();
+            if(MATRIX.getListWords().containsElement(ACTUALWORD, cmp) && !WORDSFOUND.containsElement(ACTUALWORD, cmp)){
+                //La palabra debe estar en la listas de palabras a encontrar (MATRIX.getListWords()) pero no debió haber sido encontrada anteriormente
+                WORDSFOUND.addLast(ACTUALWORD);
+                addPuntaje(ACTUALWORD.length());
+                mostrarAlerta(Alert.AlertType.INFORMATION, "FELICIDADES HA ENCONTRADO UNA PALABRA! \n+"+ACTUALWORD.length()+" PUNTOS");
+                cleanSopa(event);
+                
+            } else if (WORDSFOUND.containsElement(ACTUALWORD, cmp)) {
+            	addErrores(1);
+            	if (errores !=4) {
+            	decPuntaje(1);
+                mostrarAlerta(Alert.AlertType.WARNING, "La palabra ya se ha encontrado! \nSE HA DISMINUIDO -1 PUNTO(S)");}
+            	else {mostrarAlerta(Alert.AlertType.WARNING, "Se te han acabado los intentos! Adiós :(");
+            		  volverMenu();}
+            } else {
+            	addErrores(1);
+            	if (errores !=4) {
+            	decPuntaje(ACTUALWORD.length());
+                mostrarAlerta(Alert.AlertType.WARNING, "LA PALABRA NO EXISTE EN LA LISTA PARA ENCONTRAR! \n-"+ACTUALWORD.length()+" PUNTOS");
+                cleanSopa(event);}
+            	else {mostrarAlerta(Alert.AlertType.WARNING, "Se te han acabado los intentos! Adiós :(");
+            		  volverMenu();}
+            }
+        } else {
+        	addErrores(1);
+        	if(errores !=4) {
+            decPuntaje(1);
+            mostrarAlerta(Alert.AlertType.WARNING, "Realice una selección valida! \nSE HA DISMINUIDO -1 PUNTO(S)");
+            cleanSopa(event);}
+        	else{mostrarAlerta(Alert.AlertType.WARNING, "Se te han acabado los intentos! Adiós :(");
+        		 volverMenu();}
+        }
+        
+    }
+    
+    private void volverMenu() {
+    	try {
+    	
+            Parent root = App.loadFXML("MenuPrincipal");
+            Stage stage = new Stage();
+            Scene scene = new Scene(root, 593, 395);
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e){
+            System.out.println("File not found, Error al cargar pantalla");
+        }
+    }
+    
+    private void addPuntaje(int cantidad){
+        PLAYERPOINTS+=cantidad;
+        textPoints.setText(String.valueOf(PLAYERPOINTS));
+    }
+    
+    private void decPuntaje(int cantidad){
+        PLAYERPOINTS-=cantidad;
+        textPoints.setText(String.valueOf(PLAYERPOINTS));
+    }
+    
+    private void addErrores(int cantidad) {
+    	errores+=cantidad;
+    }
+    
+    private String getNombre() {
+    	return textPlayer.getText();
+    }
+    
+    private String getPuntaje() {
+    	return textPoints.getText();
+    } 
     
     
 }
-    
