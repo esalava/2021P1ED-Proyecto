@@ -546,7 +546,9 @@ public class PartidaCATEController {
     	try {
     	
             Parent root = App.loadFXML("MenuPrincipal");
-            Stage stage = new Stage();
+            Stage gameStage = (Stage) textPlayer.getScene().getWindow();
+            gameStage.close();
+            Stage stage  = new Stage();
             Scene scene = new Scene(root, 593, 395);
             stage.setScene(scene);
             stage.centerOnScreen();

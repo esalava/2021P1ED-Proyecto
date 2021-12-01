@@ -17,6 +17,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.Stack;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -121,12 +122,13 @@ public class PartidaEXTREMEController {
     	Thread hiloCuenta = new Thread(new DecrementaCuenta());
         hiloCuenta.setDaemon(true);
         hiloCuenta.start();
+        
     	textError.setText(errores+"");
         textPlayer.setText(Pregunta2Controller.getNameValue());
         MATRIX.agregarPalabras("palabras.txt");
         MATRIX.showMatrix();
         System.out.println("*********************************");
-        System.out.println("Inicializacion de Partida Normal");
+        System.out.println("Inicializacion de Partida Por Categorias");
         rd = new Random();
         //Palabras para poder llenar el vbox Verde.
         
@@ -545,11 +547,13 @@ public class PartidaEXTREMEController {
         
     }
     
-    private  void volverMenu() {
+    private void volverMenu() {
     	try {
     	
             Parent root = App.loadFXML("MenuPrincipal");
-            Stage stage = new Stage();
+            Stage gameStage = (Stage) textPlayer.getScene().getWindow();
+            gameStage.close();
+            Stage stage  = new Stage();
             Scene scene = new Scene(root, 593, 395);
             stage.setScene(scene);
             stage.centerOnScreen();
@@ -586,29 +590,34 @@ public class PartidaEXTREMEController {
         private int count = Integer.parseInt(Pregunta2Controller.getTimeValue());
         
         
-
-        
         private void decrementCount() {
-        if(count==0) {/**mostrarAlerta(Alert.AlertType.INFORMATION,"Se ha acabado el tiempo :)"**/
-        	System.out.println("SE ACABOOOO");
-        	
-        			  count--;}
-        else {
+        if(count==0) {
+            Platform.runLater(() -> {
+                //Cuando se acaba el tiempo vuelve a la pantalla principal y guarda dentro del log
+                mostrarAlerta(Alert.AlertType.WARNING, "Se ha acabado su tiempo, suerte la próxima!!");
+                volverMenu();
+                realizarLog(textPlayer.getText(),textPoints.getText(),textTime.getText(),timeStamp);
+            });
+            
+           
+
+        } else {
             count--;
             textTime.setText(Integer.toString(count));}
         }
 
         @Override
         public void run() {
-            while (count>=0) {
+            while (count>0) {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException ex) {
+                    System.out.println("Error");
                 }
 
                 decrementCount();
             }
-        
+            decrementCount();
         }
 
     }
