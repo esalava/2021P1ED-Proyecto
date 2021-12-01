@@ -104,8 +104,8 @@ public class Matrix implements MatrixMoves, MatrixRandomInsert, MatrixDelete {
     }
 
     //metodo para cargar palabras a la sopa de letras
-    public void agregarPalabras() {
-        DoblyCircularList<String> listaPalabras = Word.loadWords("src/main/resources/espol/palabras.txt");
+    public void agregarPalabras(String ruta) {
+        DoblyCircularList<String> listaPalabras = Word.loadWords("src/main/resources/espol/"+ruta);
         DoblyCircularList<String> palabrasSopa = new DoblyCircularList<>();
         Random r = new Random();
 

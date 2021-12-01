@@ -1,6 +1,9 @@
 package espol.sopadeletras;
 
 import java.io.IOException;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -15,12 +18,12 @@ public class PreguntaController {
 
     public static String nombre;
     public static String medida;
-    public static int fila;
-    public static int colum;
+    
+    public static int medidaVal;
     @FXML
-    private static ComboBox<String> cb1 = new ComboBox<String>();
+    private ComboBox<String> cb1;
     @FXML
-    private  TextField cuadroT3;
+    private TextField cuadroT3;
     @FXML
     private VBox vboxElementos;
     @FXML
@@ -29,9 +32,9 @@ public class PreguntaController {
     
     @FXML
     private void switchToJugar(ActionEvent event) throws IOException {
-        //App.switchScenes(event, "PartidaNormal", 782, 654);
-        
-    	if ((cuadroT3.getText().trim().isEmpty())) {
+    	
+    	
+    	if ((cuadroT3.getText().trim().isEmpty()) || cb1.getValue() == null) {
             
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Error");
@@ -40,34 +43,30 @@ public class PreguntaController {
             
             
         }else{
-            App.switchScenes(event, "PartidaNormal", 782, 654);
-            
-            /*nombre = cuadroT3.getText();
-            medida = cb1.getValue();
-            String filas = medida.substring(0,0);
-            String column = medida.substring(2,2); 
-            fila = Integer.parseInt(filas);
-            colum = Integer.parseInt(column);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setHeaderText("Éxito");
-            alert.setContentText("Jugador: "+cuadroT3.getText()+" creado");
-            alert.showAndWait();*/
+            nombre = cuadroT3.getText();
+    		medida = cb1.getValue();
+    	
+        	medidaVal = Integer.parseInt(medida.split("x")[0]); 
+    		App.switchScenes(event, "PartidaNormal", 782, 656);//782,654
             
         }
         
     }
     
+    @FXML
     private void initialize() {
+    	nombre = "Buenas";
+    	medida = "ads";
+    	ObservableList<String> items = FXCollections.observableArrayList("9x9", "10x10", "11x11");
+    	cb1.setItems(items);
+    	
     }
     
     
     public static int getFilaValue() {
-    	return fila;
+    	return medidaVal;
     }
     
-    public static int getColumValue() {
-    	return colum;
-    }
 
     public static String getNameValue() {
     	return nombre;

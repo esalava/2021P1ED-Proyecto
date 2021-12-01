@@ -4,20 +4,27 @@ import Matrix.Cell;
 import Matrix.LetraMatrix;
 import Matrix.Matrix;
 import Matrix.VerificacionesPalabras;
+import Matrix.Word;
 import TDA.DoblyCircularList;
+
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Random;
-import java.util.Stack;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -28,6 +35,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class PartidaNormalController {
     Random rd;
@@ -36,7 +44,7 @@ public class PartidaNormalController {
     private GridPane sopa;
 
     @FXML
-    private Text textPlayer;
+    private Text textPlayer = new Text(PreguntaController.getNameValue());
 
     /* *********** PALABRA **************/
     @FXML
@@ -51,12 +59,22 @@ public class PartidaNormalController {
     @FXML
     private Text textPoints;
     
-    private int PLAYERPOINTS = 0; 
+    private int PLAYERPOINTS = 0;
+    
+    @FXML
+    private Text textError;
+    
+    private int errores = 0;
     /*********************************************/
     
     /****************PALABRAS ENCONTRADAS********************/
     
     private DoblyCircularList<String> WORDSFOUND = new DoblyCircularList<>(); //lista de palabras encontradas por el jugador
+     @FXML
+     private VBox VBoxPalabras;
+     
+     @FXML
+     private Text textLLeno;
     
     /***********************************************************/
     @FXML
@@ -78,23 +96,34 @@ public class PartidaNormalController {
     
     private int cantidadAddDelete = 0; //Oportunidades para añadir una columna o una fila
 
-    int rows = 10;
-    int columns = 10;
+    String timeStamp = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
+    int rows = PreguntaController.getFilaValue();
+    int columns = PreguntaController.getFilaValue();
     private Matrix MATRIX = new Matrix(rows, columns);
     
     @FXML
     private void switchToSecondary() throws IOException {
         App.setRoot("MenuPrincipal");
     }
+    
+    @FXML
+    private void switchToMenu(ActionEvent event) throws IOException{
+    	mostrarAlerta(Alert.AlertType.WARNING, "Suerte para la próxima! Tú puedes! :D");
+    	realizarLog(textPlayer.getText(),textPoints.getText(),"NA",timeStamp);
+    	App.switchScenes(event,"MenuPrincipal",593, 395);
+    }
 
     @FXML
     private void initialize() {
-        
-        MATRIX.agregarPalabras();
+    	textError.setText(errores+"");
+        textPlayer.setText(PreguntaController.getNameValue());
+        MATRIX.agregarPalabras("palabras.txt");
         MATRIX.showMatrix();
         System.out.println("*********************************");
         System.out.println("Inicializacion de Partida Normal");
         rd = new Random();
+        //Palabras para poder llenar el vbox Verde.
+        
         
         sopa.setGridLinesVisible(true);
         
@@ -139,6 +168,20 @@ public class PartidaNormalController {
         }      
         
         loadAllButtons();
+        DoblyCircularList<String> listaPalabras = MATRIX.getListWords();
+        Iterator<String> iteratorPalabras = listaPalabras.iterator();
+        Comparator<String> cmp = (String o1, String o2) -> o1.compareTo(o2);
+        while (iteratorPalabras.hasNext()) {
+            String palabra = iteratorPalabras.next();
+            TextField ptext = new TextField(palabra);
+            ptext.setEditable(false);
+            ptext.setAlignment(Pos.CENTER);
+            ptext.setBackground(new Background(new BackgroundFill(Color.web("#88DBC2"), null, null)));
+            if (WORDSFOUND.containsElement(palabra,cmp)) {
+            	ptext.setBackground(new Background(new BackgroundFill(Color.web("118824"),null,null)));
+            }
+            VBoxPalabras.getChildren().add(ptext);
+        }
     }
     
     @FXML
@@ -177,7 +220,8 @@ public class PartidaNormalController {
     private void updateSopaPane(){
         MATRIX.showMatrix();
         sopa.getChildren().clear();
-        
+        VBoxPalabras.getChildren().clear();
+        textError.setText(errores+"");
         DoblyCircularList<DoblyCircularList<Character>> matrixList = MATRIX.getMatrix();
         Iterator<DoblyCircularList<Character>> rowIterator = matrixList.iterator();
         int y = 0;
@@ -216,6 +260,26 @@ public class PartidaNormalController {
             y++;
         } 
         
+        DoblyCircularList<String> listaPalabras = MATRIX.getListWords();
+        Iterator<String> iteratorPalabras = listaPalabras.iterator();
+        Comparator<String> cmp = (String o1, String o2) -> o1.compareTo(o2);
+        VBoxPalabras.getChildren().add(textLLeno);
+        while (iteratorPalabras.hasNext()) {
+            String palabra = iteratorPalabras.next();
+            TextField ptext = new TextField(palabra);
+            ptext.setEditable(false);
+            ptext.setAlignment(Pos.CENTER);
+            if (WORDSFOUND.containsElement(palabra,cmp)) {
+            	ptext.setBackground(new Background(new BackgroundFill(Color.web("118824"),null,null)));
+            }else {ptext.setBackground(new Background(new BackgroundFill(Color.web("#88DBC2"), null, null)));
+            }
+            VBoxPalabras.getChildren().add(ptext);
+        }
+        if (WORDSFOUND.size() == listaPalabras.size()) {
+        	mostrarAlerta(Alert.AlertType.INFORMATION,"Haz encontrado todas las palabras! Felicidades :D");
+        	volverMenu();
+        	realizarLog(textPlayer.getText(),textPoints.getText(),"NA",timeStamp);
+        }
         System.out.println("Actualizacion correctamente");
         
     }
@@ -442,20 +506,50 @@ public class PartidaNormalController {
                 addPuntaje(ACTUALWORD.length());
                 mostrarAlerta(Alert.AlertType.INFORMATION, "FELICIDADES HA ENCONTRADO UNA PALABRA! \n+"+ACTUALWORD.length()+" PUNTOS");
                 cleanSopa(event);
+                
             } else if (WORDSFOUND.containsElement(ACTUALWORD, cmp)) {
-                decPuntaje(1);
-                mostrarAlerta(Alert.AlertType.WARNING, "La palabra ya se ha encontrado! \nSE HA DISMINUIDO -1 PUNTO(S)");
+            	addErrores(1);
+            	if (errores !=4) {
+            	decPuntaje(1);
+                mostrarAlerta(Alert.AlertType.WARNING, "La palabra ya se ha encontrado! \nSE HA DISMINUIDO -1 PUNTO(S)");}
+            	else {mostrarAlerta(Alert.AlertType.WARNING, "Se te han acabado los intentos! Adiós :(");
+            		  volverMenu();
+            		  realizarLog(textPlayer.getText(),textPoints.getText(),"NA",timeStamp);}
             } else {
-                decPuntaje(ACTUALWORD.length());
+            	addErrores(1);
+            	if (errores !=4) {
+            	decPuntaje(ACTUALWORD.length());
                 mostrarAlerta(Alert.AlertType.WARNING, "LA PALABRA NO EXISTE EN LA LISTA PARA ENCONTRAR! \n-"+ACTUALWORD.length()+" PUNTOS");
-                cleanSopa(event);
+                cleanSopa(event);}
+            	else {mostrarAlerta(Alert.AlertType.WARNING, "Se te han acabado los intentos! Adiós :(");
+            		  volverMenu();
+            		  realizarLog(textPlayer.getText(),textPoints.getText(),"NA",timeStamp);}
             }
         } else {
+        	addErrores(1);
+        	if(errores !=4) {
             decPuntaje(1);
             mostrarAlerta(Alert.AlertType.WARNING, "Realice una selección valida! \nSE HA DISMINUIDO -1 PUNTO(S)");
-            cleanSopa(event);
+            cleanSopa(event);}
+        	else{mostrarAlerta(Alert.AlertType.WARNING, "Se te han acabado los intentos! Adiós :(");
+        		 volverMenu();
+        		 realizarLog(textPlayer.getText(),textPoints.getText(),"NA",timeStamp);}
         }
         
+    }
+    
+    private void volverMenu() {
+    	try {
+    	
+            Parent root = App.loadFXML("MenuPrincipal");
+            Stage stage = new Stage();
+            Scene scene = new Scene(root, 593, 395);
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e){
+            System.out.println("File not found, Error al cargar pantalla");
+        }
     }
     
     private void addPuntaje(int cantidad){
@@ -467,5 +561,43 @@ public class PartidaNormalController {
         PLAYERPOINTS-=cantidad;
         textPoints.setText(String.valueOf(PLAYERPOINTS));
     }
+    
+    private void addErrores(int cantidad) {
+    	errores+=cantidad;
+    }
+    
+    private String getNombre() {
+    	return textPlayer.getText();
+    }
+    
+    private String getPuntaje() {
+    	return textPoints.getText();
+    } 
+    
+    private void realizarLog(String nombre,String puntaje,String tiempo,String fecha) {
+    	FileWriter fichero = null;
+        BufferedWriter bw = null;
+        try
+        {
+            fichero = new FileWriter("src/main/resources/espol/logs.txt",true);
+            bw = new BufferedWriter(fichero);
+            bw.write("PARTIDA NORMAL: "+nombre+"  -  "+puntaje+"  -  "+tiempo+"  -  "+fecha+"\n");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+           try {
+           // Nuevamente aprovechamos el finally para 
+           // asegurarnos que se cierra el fichero.
+           if (null != fichero)
+              bw.close();
+           } catch (Exception e2) {
+              e2.printStackTrace();
+           }
+    	
+    }
+    
+    
+}
     
 }

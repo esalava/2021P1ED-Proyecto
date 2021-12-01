@@ -15,7 +15,7 @@ public class Word {
             BufferedReader br = new BufferedReader(reader);
             String linea;
             while ((linea = br.readLine())!= null){
-                listaPalabras.addLast(linea.strip());
+                listaPalabras.addLast(linea.trim());
             }
             reader.close();
         } catch (Exception e){
