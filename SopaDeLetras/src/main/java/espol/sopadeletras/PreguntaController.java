@@ -13,7 +13,7 @@ import javafx.scene.layout.VBox;
 
 public class PreguntaController {
 
-	public static String nombre;
+    public static String nombre;
     public static String medida;
     public static int fila;
     public static int colum;
