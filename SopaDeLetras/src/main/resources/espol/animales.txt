@@ -3,13 +3,13 @@ Avestruz
 Ballena
 Ballena azul
 Bisonte
-Búfalo
-Búhos
+Bufalo
+Buhos
 Buitre
 Burro
 Caballo
 Cabra
-Camaleón
+Camaleon
 Camello
 Canario
 Castor
@@ -17,11 +17,11 @@ Cebra
 Cerdo
 Ciervo
 Cobra
-Colibrí
+Colibri
 Comadreja
-Cóndor
+Condor
 Conejo
-Delfín
+Delfin
 Elefante
 Faisan
 Flamenco
@@ -31,42 +31,40 @@ Gallo
 Gato
 Gorila
 Guepardo
-Hámster
+Hamster
 Hiena
-Hipopótamo
-Jabalí
+Hipopotamo
+Jabali
 Jaguar
 Jirafa
 Koala
 Lagarto
-León
-León marino
+Leon
+Leon marino
 Llama
 Lobo
 Loro
-Manatí
+Manati
 Mapache
 Mono
-Murciélago
+Murcielago
 Nutria
-Ñandú
 Orcas
 Oso hormiguero
 Oso marino
 Oso
 Oso polar
-Pájaro carpintero
+Pajaro carpintero
 Paloma
 Panda
 Pato
 Pavo real
-Pelícano
+Pelicano
 Perro
-Pingüino
-Puercoespín
+Puercoespin
 Puma
 Rana
-Ratón
+Raton
 Reno
 Rinoceronte
 Salamandra

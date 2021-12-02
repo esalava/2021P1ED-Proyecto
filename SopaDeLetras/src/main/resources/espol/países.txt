@@ -1,12 +1,21 @@
 ecuador
 brasil
-méxico
-panamá
-estados unidos
+mexico
+panama
 colombia
 uruguay
-japón
+japon
 alemania
-españa
+espana
 nicaragua
 china
+argentina
+nigeria
+canada
+bolivia
+rusia
+australia
+francia
+turquia
+irlanda
+grecia

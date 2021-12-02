@@ -12,7 +12,7 @@ public class TestVerificacionesPalabras {
         /*TEST REPETIDOS*/
         DoblyCircularList<LetraMatrix> repetidos = new DoblyCircularList<>();
         LetraMatrix l1 = new LetraMatrix(3,3,'x');
-        LetraMatrix l2 = new LetraMatrix(3,2,'j');
+        LetraMatrix l2 = new LetraMatrix(3,3,'j');
         
         repetidos.addLast(l1);
         repetidos.addLast(l2);

@@ -110,7 +110,7 @@ public class Matrix implements MatrixMoves, MatrixRandomInsert, MatrixDelete {
         Random r = new Random();
 
         int conteo = 0;
-        while (conteo < 3) {  //NUMERO DE PALABRAS QUE SE VAN A INGRESAR
+        while (conteo < 6) {  //NUMERO DE PALABRAS QUE SE VAN A INGRESAR
             int x = r.nextInt(row);
             int y = r.nextInt(column);
 
@@ -121,6 +121,7 @@ public class Matrix implements MatrixMoves, MatrixRandomInsert, MatrixDelete {
 
             boolean invertirONo = r.nextBoolean();
 
+            //si la palabra tiene un tamaño mayor al tamaño de la matriz
             while (lenPal > row && lenPal > column) {
                 indexpalabra = r.nextInt(listaPalabras.size());
                 palabra = listaPalabras.getIndex(indexpalabra);
@@ -134,7 +135,7 @@ public class Matrix implements MatrixMoves, MatrixRandomInsert, MatrixDelete {
             int numOrient = r.nextInt(3);
 
             boolean v = confirmar(x, y, palabra, numOrient);
-            if (v) {
+            if (v) {  //Si es false regresa al bucle a buscar otra palabra
                 switch (numOrient) {
                     case 0:
                         //horizontal
@@ -225,6 +226,7 @@ public class Matrix implements MatrixMoves, MatrixRandomInsert, MatrixDelete {
                         boolean conf = false;
                         for (int i = 0; i < lenPal; i++) {
                             if (lenPal < cont) {
+                                //DERECHA ABAJO
                                 int indicex = x + i;
                                 int indicey = y + i;
                                 Character letra = Character.toUpperCase(palabra.charAt(i));
@@ -266,10 +268,10 @@ public class Matrix implements MatrixMoves, MatrixRandomInsert, MatrixDelete {
                             }
                         }
                         break;
-                } //switch
-            }   //if de v
-        } //if  
-        //rellenarRandom();
+                } 
+            }   
+        }   
+        rellenarRandom();
         listWords = palabrasSopa;
     }
 
@@ -294,6 +296,7 @@ public class Matrix implements MatrixMoves, MatrixRandomInsert, MatrixDelete {
 
         switch (orientacion) {
             case 0:
+                //HORIZONTAL
                 int i = 0;
                 DoblyCircularList<Character> actualRow = matrix.getIndex(x);
                 while (confirmacion == true && i < len) {
@@ -307,7 +310,8 @@ public class Matrix implements MatrixMoves, MatrixRandomInsert, MatrixDelete {
                     i++;
                 }
                 break;
-
+            
+                //VERTICAL
             case 1:
                 int s = 0;
                 while (confirmacion == true && s < len) {
@@ -371,7 +375,7 @@ public class Matrix implements MatrixMoves, MatrixRandomInsert, MatrixDelete {
                         int indicex = x + t;
                         int indicey = y + t;
                         DoblyCircularList<Character> actualrow = matrix.getIndex(indicex);
-                        if (actualrow.getIndex(indicey) != '0') {
+                        if (actualrow.getIndex(indicey) != '0') { //No debe encontrarse con una palabra
                             confirmacion = false;
                         }
                     } else if (len < cont2) {

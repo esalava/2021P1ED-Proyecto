@@ -10,7 +10,7 @@ public interface MatrixDelete {
      * 
      * La fila es eliminada gracias al método propuesto por las listas 
      * circulares (deleteAt). Se obtiene el índice de la fila a la que queremos
-     * eliminar y hacemos uso de este métodos. Se aprovecha la propiedad de la 
+     * eliminar y hacemos uso de este método. Se aprovecha la propiedad de la 
      * clase Matrix que usa Listas Circulares de Listas Circulares.
      * 
      * Complejidad de O(n). 
@@ -25,7 +25,7 @@ public interface MatrixDelete {
      * 
      * La columna es eliminada gracias al método propuesto por las listas 
      * circulares (deleteAt). Se recorre a cada una de las filas de la matriz
-     * y se elimina el elemento en la posicion (index), causando la eliminación 
+     * y se elimina el elemento en la posición (index), causando la eliminación 
      * de la columna.
      * 
      * Complejidad de O(n). 

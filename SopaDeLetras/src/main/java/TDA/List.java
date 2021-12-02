@@ -11,4 +11,9 @@ package TDA;
  */
 public interface List<E> {
     public boolean addLast(E element);
+    public boolean addAt(E e, int pos);
+    public E getIndex(int index);
+    public boolean setAt(E element, int index);
+    public boolean deleteLast();
+    public boolean deleteAt(int index);
 }

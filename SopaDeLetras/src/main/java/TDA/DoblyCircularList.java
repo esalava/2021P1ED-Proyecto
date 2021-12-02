@@ -46,6 +46,7 @@ public class DoblyCircularList<E> implements List<E>, Iterable<E>, CircularShift
 
     /*Puede añadir un elemento en una posicion n de la lista (incluye que puede
     agregarlo al final de la lista)*/
+    @Override
     public boolean addAt(E e, int pos) {
 
         if (e != null && pos >= 0 && pos <= this.size()) {
@@ -74,7 +75,7 @@ public class DoblyCircularList<E> implements List<E>, Iterable<E>, CircularShift
         return false;
     }
 
-    /*BORRAR AL FINAL*/
+   
     public void show() {
         CircularDoblyNodeList<E> travellerNode;
 
@@ -90,6 +91,7 @@ public class DoblyCircularList<E> implements List<E>, Iterable<E>, CircularShift
     }
 
     //Funciona como indice en un ArrayList O(n)
+    @Override
     public E getIndex(int index) {
         CircularDoblyNodeList<E> travellerNode;
         int i = 0;
@@ -128,6 +130,7 @@ public class DoblyCircularList<E> implements List<E>, Iterable<E>, CircularShift
     }
 
     //Complejidad de O(n)
+    @Override
     public boolean setAt(E element, int index) {
 
         CircularDoblyNodeList<E> travellerNode;
@@ -147,6 +150,7 @@ public class DoblyCircularList<E> implements List<E>, Iterable<E>, CircularShift
         return false;
     }
     
+    @Override
     public boolean deleteLast(){
         
         last.getPrevious().setNext(last.getNext());
@@ -156,6 +160,7 @@ public class DoblyCircularList<E> implements List<E>, Iterable<E>, CircularShift
         return true;
     }
     
+    @Override
     public boolean deleteAt(int index){
         CircularDoblyNodeList<E> travellerNode = last.getNext();
         int i = 0;
